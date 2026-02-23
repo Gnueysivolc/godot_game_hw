@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bu7ydamdif6al" path="res://GUI/interactable/box/finalbox.gd" id="1_vxj82"]
 [ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="2_is2b3"]
 [ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="3_4ixkq"]
+[ext_resource type="Texture2D" uid="uid://bqqg2a3lgtl0l" path="res://GUI/interactable/box/progress_bar_under.png" id="4_4ixkq"]
+[ext_resource type="Texture2D" uid="uid://b5l6g3vt0u03l" path="res://GUI/interactable/box/progress_bar_progress.png" id="5_5enwo"]
+[ext_resource type="Texture2D" uid="uid://dbjxkyghp421c" path="res://GUI/interactable/box/exclamation.png" id="6_5enwo"]
 
 [sub_resource type="Animation" id="Animation_k112n"]
 length = 0.001
@@ -36,6 +39,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_86adg"]
 resource_name = "open_and_close"
+length = 0.5
 step = 0.1666
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -44,10 +48,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1666, 0.3332, 0.49980003, 0.6664, 0.833),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5]
+"values": [0, 1, 2]
 }
 tracks/1/type = "audio"
 tracks/1/imported = false
@@ -106,3 +110,19 @@ monitorable = false
 position = Vector2(2.125, 1.875)
 shape = SubResource("RectangleShape2D_bef78")
 debug_color = Color(0.24998823, 0.90947145, 0.24218619, 0.41960785)
+
+[node name="RespawnBar" type="TextureProgressBar" parent="." unique_id=1937346834]
+offset_left = -45.0
+offset_top = -91.0
+offset_right = 55.0
+offset_bottom = 9.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("4_4ixkq")
+texture_progress = ExtResource("5_5enwo")
+texture_progress_offset = Vector2(-2, 9)
+
+[node name="Exclamation" type="Sprite2D" parent="." unique_id=1164209059]
+position = Vector2(3, -42)
+texture = ExtResource("6_5enwo")
+offset = Vector2(2, -30)
