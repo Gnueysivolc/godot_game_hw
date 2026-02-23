@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://be6jsx0lajfho" path="res://asset/props/first_aid_box.png" id="5_x0ge4"]
 [ext_resource type="Texture2D" uid="uid://b4vfag73eli3o" path="res://asset/props/stand.png" id="6_wri35"]
 [ext_resource type="Texture2D" uid="uid://bl2fhd4x5icdy" path="res://asset/props/table.png" id="7_ltcl3"]
+[ext_resource type="Script" uid="uid://bgxibhuiidk1v" path="res://GUI/progress_bar.gd" id="9_x0ge4"]
+[ext_resource type="PackedScene" uid="uid://c1k70xkphh4bj" path="res://GUI/interactable/box/finalbox.tscn" id="10_wri35"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18gtc"]
 texture = ExtResource("1_ovgxd")
@@ -1045,26 +1047,6 @@ texture_region_size = Vector2i(71, 135)
 8:14/0 = 0
 9:14/0 = 0
 10:14/0 = 0
-0:15/0 = 0
-1:15/0 = 0
-2:15/0 = 0
-3:15/0 = 0
-4:15/0 = 0
-6:15/0 = 0
-7:15/0 = 0
-8:15/0 = 0
-9:15/0 = 0
-10:15/0 = 0
-0:16/0 = 0
-1:16/0 = 0
-2:16/0 = 0
-3:16/0 = 0
-4:16/0 = 0
-6:16/0 = 0
-7:16/0 = 0
-8:16/0 = 0
-9:16/0 = 0
-10:16/0 = 0
 1:1/0 = 0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-35.5, -67.5, 35.5, -67.5, 35.5, 67.5, -35.5, 67.5)
 0:1/0 = 0
@@ -1077,7 +1059,7 @@ sources/0 = SubResource("TileSetAtlasSource_qg8g3")
 
 [node name="clinic_map" type="Node2D" unique_id=881880705]
 y_sort_enabled = true
-position = Vector2(957, 524)
+position = Vector2(1080, 552)
 
 [node name="floor" type="TileMapLayer" parent="." unique_id=1275357026]
 position = Vector2(64, -610)
@@ -1112,7 +1094,19 @@ position = Vector2(0, 52)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1176726537]
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=472850911]
-offset_top = 6.0
 offset_right = 317.0
-offset_bottom = 227.0
+offset_bottom = 221.0
 value = 100.0
+script = ExtResource("9_x0ge4")
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=375881590]
+offset_left = 1080.0
+offset_top = 552.0
+offset_right = 1120.0
+offset_bottom = 592.0
+theme_override_constants/separation = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="Finalbox" parent="." unique_id=451739962 instance=ExtResource("10_wri35")]
+position = Vector2(-96, -168)

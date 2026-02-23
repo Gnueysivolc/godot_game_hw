@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b46om4bt7n1t8"]
+
+[ext_resource type="Script" uid="uid://bcykc4fimgftu" path="res://GUI/interactable/box/red_box.gd" id="1_4d151"]
+
+[node name="RedBox_fix" type="Node2D" unique_id=238236486]
+script = ExtResource("1_4d151")

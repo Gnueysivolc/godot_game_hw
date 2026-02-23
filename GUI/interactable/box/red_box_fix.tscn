@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://b0p8ug6jvv0k1"]
+
+[ext_resource type="Script" uid="uid://bcykc4fimgftu" path="res://GUI/interactable/box/red_box.gd" id="1_4d151"]
+[ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="2_gcxs8"]
+[ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="3_uvp24"]
+
+[sub_resource type="Animation" id="Animation_k112n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_buihe"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_86adg"]
+resource_name = "open_and_close"
+loop_mode = 1
+step = 0.1666
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332, 0.49980003, 0.6664, 0.833),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_uvp24")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/1/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gd73w"]
+_data = {
+&"RESET": SubResource("Animation_k112n"),
+&"close": SubResource("Animation_buihe"),
+&"open_and_close": SubResource("Animation_86adg")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hm5yd"]
+size = Vector2(44, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_htbx7"]
+size = Vector2(57.75, 55.75)
+
+[node name="RedBox" type="Node2D" unique_id=238236486]
+script = ExtResource("1_4d151")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1460904422]
+position = Vector2(0, -1)
+texture = ExtResource("2_gcxs8")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1094561493]
+libraries/ = SubResource("AnimationLibrary_gd73w")
+autoplay = &"close"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1330001602]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1413161708]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=676573673]
+position = Vector2(3, 2)
+shape = SubResource("RectangleShape2D_hm5yd")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=359167518]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1760646351]
+position = Vector2(2.125, 1.875)
+shape = SubResource("RectangleShape2D_htbx7")
+debug_color = Color(0.24998823, 0.90947145, 0.24218619, 0.41960785)

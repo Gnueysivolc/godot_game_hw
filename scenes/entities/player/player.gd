@@ -1,9 +1,13 @@
+class_name Player
 extends CharacterBody2D
 
-@export var speed: int = 800 # 400
+signal direction_changed(new_direction: Vector2)
+
+signal interact_pressed
+
+@export var speed: int = 800
 var move_direction: Vector2 = Vector2.ZERO
 var facing_direction: Vector2 = Vector2(0, 1)
-
 @onready var anim: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
@@ -17,7 +21,10 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 	if motion != Vector2.ZERO:
+		var old_direction = facing_direction
 		facing_direction = move_direction
+		if facing_direction != old_direction:
+			direction_changed.emit(facing_direction)
 		play_walk()
 	else:
 		play_idle()
@@ -44,11 +51,20 @@ func play_idle() -> void:
 		
 		
 		
-		
+# listen to keyboard events
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		print("Click at: ", get_global_mouse_position())
-
+	if event.is_action_pressed("interact"):
+		interact_pressed.emit()
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

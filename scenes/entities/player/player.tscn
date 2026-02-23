@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://crb8dnolhyiju" path="res://scenes/entities/player/player.gd" id="1_635qg"]
 [ext_resource type="Texture2D" uid="uid://cj4ikqj2v2k75" path="res://asset/player/doctor_all_walk_and_idle.png" id="2_635qg"]
 [ext_resource type="Script" uid="uid://cff16caeb6l3k" path="res://scenes/entities/player/camera_2d.gd" id="3_58kc7"]
+[ext_resource type="Script" uid="uid://dg2ljpc71t5tt" path="res://scenes/entities/player/node_2d.gd" id="4_nh4ur"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0e48y"]
 radius = 28.0
@@ -179,6 +180,9 @@ _data = {
 &"walk_up": SubResource("Animation_5sj0x")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjvvg"]
+size = Vector2(47, 67.5)
+
 [node name="player" type="CharacterBody2D" unique_id=769927342]
 script = ExtResource("1_635qg")
 
@@ -195,3 +199,14 @@ script = ExtResource("3_58kc7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=357562000]
 libraries/ = SubResource("AnimationLibrary_58kc7")
+
+[node name="interaction" type="Node2D" parent="." unique_id=962382578]
+script = ExtResource("4_nh4ur")
+
+[node name="Area2D" type="Area2D" parent="interaction" unique_id=210071442]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interaction/Area2D" unique_id=1729284064]
+position = Vector2(0, 21.25)
+shape = SubResource("RectangleShape2D_bjvvg")
+debug_color = Color(0.73730576, 0.10141068, 0.9999998, 0.41960785)
