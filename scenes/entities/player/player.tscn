@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://crb8dnolhyiju" path="res://scenes/entities/player/player.gd" id="1_635qg"]
 [ext_resource type="Texture2D" uid="uid://cj4ikqj2v2k75" path="res://asset/player/doctor_all_walk_and_idle.png" id="2_635qg"]
+[ext_resource type="Script" uid="uid://cff16caeb6l3k" path="res://scenes/entities/player/camera_2d.gd" id="3_58kc7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0e48y"]
 radius = 28.0
@@ -190,6 +191,7 @@ hframes = 37
 shape = SubResource("CircleShape2D_0e48y")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1316168337]
+script = ExtResource("3_58kc7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=357562000]
 libraries/ = SubResource("AnimationLibrary_58kc7")

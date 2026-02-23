@@ -45,5 +45,10 @@ func play_idle() -> void:
 		
 		
 		
+func _input(event):
+	if event is InputEventMouseButton and event.pressed:
+		print("Click at: ", get_global_mouse_position())
+
+		
 		
 		
