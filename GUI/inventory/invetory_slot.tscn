@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://d2rs541qugsda"]
+
+[ext_resource type="Script" uid="uid://7wpm0mfo2mk6" path="res://GUI/inventory/inventory_slot.gd" id="1_123k0"]
+
+[node name="invetory_slot" type="Panel" unique_id=58269576]
+script = ExtResource("1_123k0")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=260037495]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://dhbmyqtp5uyo1"]
 
 [ext_resource type="Texture2D" uid="uid://b1xvrkyibjxn1" path="res://asset/environment/clinic_title_final.png" id="1_ovgxd"]
+[ext_resource type="Script" uid="uid://buovse2bir4kw" path="res://scenes/environment/clinic_map.gd" id="1_v52j8"]
 [ext_resource type="Texture2D" uid="uid://cx5cy4ct1p2gh" path="res://asset/environment/wall_final.png" id="2_egmkv"]
 [ext_resource type="Texture2D" uid="uid://c6xwxh02w5dmj" path="res://asset/environment/wall_top.png" id="3_k0kmk"]
 [ext_resource type="PackedScene" uid="uid://bockxn2vrcppn" path="res://scenes/entities/player/player.tscn" id="4_k0kmk"]
@@ -8,8 +9,13 @@
 [ext_resource type="Texture2D" uid="uid://be6jsx0lajfho" path="res://asset/props/first_aid_box.png" id="5_x0ge4"]
 [ext_resource type="Texture2D" uid="uid://b4vfag73eli3o" path="res://asset/props/stand.png" id="6_wri35"]
 [ext_resource type="Texture2D" uid="uid://bl2fhd4x5icdy" path="res://asset/props/table.png" id="7_ltcl3"]
-[ext_resource type="Script" uid="uid://bgxibhuiidk1v" path="res://GUI/progress_bar.gd" id="9_x0ge4"]
+[ext_resource type="PackedScene" uid="uid://cilduvo8t3xv7" path="res://scenes/environment/inventory_ui.tscn" id="9_wri35"]
 [ext_resource type="PackedScene" uid="uid://c1k70xkphh4bj" path="res://GUI/interactable/box/finalbox.tscn" id="10_wri35"]
+[ext_resource type="Texture2D" uid="uid://ba6csba8qpnkx" path="res://GUI/inventory/items/red_pill.png" id="12_x8lf1"]
+[ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="13_c4gu0"]
+[ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="14_p4h1h"]
+[ext_resource type="Texture2D" uid="uid://b4mdukuhki1pi" path="res://GUI/inventory/items/green_pill.png" id="15_ss1u1"]
+[ext_resource type="Texture2D" uid="uid://b3ivk0sjr3egl" path="res://GUI/interactable/box/green_box_animation.png" id="16_8xfdk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18gtc"]
 texture = ExtResource("1_ovgxd")
@@ -1060,6 +1066,7 @@ sources/0 = SubResource("TileSetAtlasSource_qg8g3")
 [node name="clinic_map" type="Node2D" unique_id=881880705]
 y_sort_enabled = true
 position = Vector2(1080, 552)
+script = ExtResource("1_v52j8")
 
 [node name="floor" type="TileMapLayer" parent="." unique_id=1275357026]
 position = Vector2(64, -610)
@@ -1091,22 +1098,17 @@ tile_set = SubResource("TileSet_wgf7m")
 [node name="player" parent="." unique_id=769927342 instance=ExtResource("4_k0kmk")]
 position = Vector2(0, 52)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1176726537]
+[node name="inventoryUI" parent="." unique_id=304815659 instance=ExtResource("9_wri35")]
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=472850911]
-offset_right = 317.0
-offset_bottom = 221.0
-value = 100.0
-script = ExtResource("9_x0ge4")
-metadata/_edit_use_anchors_ = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=375881590]
-offset_left = 1080.0
-offset_top = 552.0
-offset_right = 1120.0
-offset_bottom = 592.0
-theme_override_constants/separation = 4
-metadata/_edit_use_anchors_ = true
-
-[node name="Finalbox" parent="." unique_id=451739962 instance=ExtResource("10_wri35")]
+[node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-96, -168)
+inventory_icon = ExtResource("12_x8lf1")
+box_sprite = ExtResource("13_c4gu0")
+open_sound = ExtResource("14_p4h1h")
+
+[node name="greenbox" parent="." unique_id=1015441779 groups=["loot_box"] instance=ExtResource("10_wri35")]
+position = Vector2(80, -166)
+inventory_icon = ExtResource("15_ss1u1")
+box_sprite = ExtResource("16_8xfdk")
+open_sound = ExtResource("14_p4h1h")
+open_animation_name = "green_box_animation"

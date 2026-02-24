@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c1k70xkphh4bj"]
 
 [ext_resource type="Script" uid="uid://bu7ydamdif6al" path="res://GUI/interactable/box/finalbox.gd" id="1_vxj82"]
-[ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="2_is2b3"]
+[ext_resource type="Texture2D" uid="uid://b3ivk0sjr3egl" path="res://GUI/interactable/box/green_box_animation.png" id="2_5enwo"]
 [ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="3_4ixkq"]
 [ext_resource type="Texture2D" uid="uid://bqqg2a3lgtl0l" path="res://GUI/interactable/box/progress_bar_under.png" id="4_4ixkq"]
 [ext_resource type="Texture2D" uid="uid://b5l6g3vt0u03l" path="res://GUI/interactable/box/progress_bar_progress.png" id="5_5enwo"]
@@ -36,6 +36,38 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+
+[sub_resource type="Animation" id="Animation_ynk5t"]
+resource_name = "green_box_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="Animation" id="Animation_86adg"]
 resource_name = "open_and_close"
@@ -73,6 +105,7 @@ tracks/1/use_blend = true
 _data = {
 &"RESET": SubResource("Animation_k112n"),
 &"close": SubResource("Animation_buihe"),
+&"green_box_animation": SubResource("Animation_ynk5t"),
 &"open_and_close": SubResource("Animation_86adg")
 }
 
@@ -87,7 +120,7 @@ script = ExtResource("1_vxj82")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1592448697]
 position = Vector2(0, -1)
-texture = ExtResource("2_is2b3")
+texture = ExtResource("2_5enwo")
 hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=99256545]

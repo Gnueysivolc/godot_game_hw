@@ -6,6 +6,20 @@ extends Node2D
 @onready var progress_bar: TextureProgressBar = $RespawnBar
 @onready var exclamation: Sprite2D = $Exclamation
 
+
+signal item_obtained(texture: Texture2D)
+@export var inventory_icon: Texture2D
+
+# Visual
+@export var box_sprite: Texture2D
+
+# Audio
+@export var open_sound: AudioStream
+
+# Animation
+@export var open_animation_name: String = "open_and_close"
+
+
 # -----------------------
 # CONFIG
 # -----------------------
@@ -36,6 +50,10 @@ var highlight_color := Color(1.3,1.3,1.3,1)
 # -----------------------
 
 func _ready():
+
+	if box_sprite:
+		sprite.texture = box_sprite
+
 	anim.play("close")
 
 	progress_bar.visible = false
@@ -46,6 +64,7 @@ func _ready():
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
 	anim.animation_finished.connect(_on_animation_finished)
+
 
 
 # -----------------------
@@ -109,6 +128,7 @@ func _on_body_exited(body):
 # -----------------------
 
 func _on_player_interact():
+	
 
 	if not is_ready:
 		return
@@ -117,11 +137,22 @@ func _on_player_interact():
 		return
 
 	is_animating = true
-	anim.play("open_and_close")
+
+	# Play configurable animation
+	anim.play(open_animation_name)
+
+	# Play configurable sound
+	if open_sound:
+		$AudioStreamPlayer2D.stream = open_sound
+		$AudioStreamPlayer2D.play()
 
 	print("item obtained!")
 
-	# start cooldown
+	# Emit item to inventory
+	if inventory_icon:
+		emit_signal("item_obtained", inventory_icon)
+
+	# Start cooldown
 	is_ready = false
 	is_counting = true
 	timer = 0.0
@@ -131,10 +162,14 @@ func _on_player_interact():
 	exclamation.visible = false
 
 
+
+
+
+
 # -----------------------
 # ANIMATION FINISHED
 # -----------------------
 
 func _on_animation_finished(anim_name):
-	if anim_name == "open_and_close":
+	if anim_name == open_animation_name:
 		is_animating = false

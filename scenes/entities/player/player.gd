@@ -10,6 +10,10 @@ var move_direction: Vector2 = Vector2.ZERO
 var facing_direction: Vector2 = Vector2(0, 1)
 @onready var anim: AnimationPlayer = $AnimationPlayer
 
+@onready var inventory_ui = get_parent().get_node("inventoryUI")
+
+
+
 func _ready() -> void:
 	anim.play("down_idle")
 
@@ -53,14 +57,19 @@ func play_idle() -> void:
 		
 # listen to keyboard events
 func _input(event):
-	if event is InputEventMouseButton and event.pressed:
+	if event.is_action_pressed("click"):
 		print("Click at: ", get_global_mouse_position())
+		var texture = load("res://asset/props/bed.png")
+		get_parent().get_node("inventoryUI").add_item(texture)
+
+
 	if event.is_action_pressed("interact"):
 		interact_pressed.emit()
 		
 		
 		
 		
+
 		
 		
 		
