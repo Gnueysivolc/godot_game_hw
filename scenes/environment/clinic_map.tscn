@@ -11,10 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://bl2fhd4x5icdy" path="res://asset/props/table.png" id="7_ltcl3"]
 [ext_resource type="PackedScene" uid="uid://cilduvo8t3xv7" path="res://scenes/environment/inventory_ui.tscn" id="9_wri35"]
 [ext_resource type="PackedScene" uid="uid://c1k70xkphh4bj" path="res://GUI/interactable/box/finalbox.tscn" id="10_wri35"]
-[ext_resource type="Texture2D" uid="uid://ba6csba8qpnkx" path="res://GUI/inventory/items/red_pill.png" id="12_x8lf1"]
+[ext_resource type="Texture2D" uid="uid://dw0vhid8oe5b3" path="res://GUI/inventory/items/real_red_pill.png" id="12_v52j8"]
 [ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="13_c4gu0"]
 [ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="14_p4h1h"]
-[ext_resource type="Texture2D" uid="uid://b4mdukuhki1pi" path="res://GUI/inventory/items/green_pill.png" id="15_ss1u1"]
+[ext_resource type="Texture2D" uid="uid://bfl3qljkk72kb" path="res://GUI/inventory/items/real_green_pill.png" id="15_v52j8"]
 [ext_resource type="Texture2D" uid="uid://b3ivk0sjr3egl" path="res://GUI/interactable/box/green_box_animation.png" id="16_8xfdk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18gtc"]
@@ -1102,13 +1102,13 @@ position = Vector2(0, 52)
 
 [node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-96, -168)
-inventory_icon = ExtResource("12_x8lf1")
+inventory_icon = ExtResource("12_v52j8")
 box_sprite = ExtResource("13_c4gu0")
 open_sound = ExtResource("14_p4h1h")
 
 [node name="greenbox" parent="." unique_id=1015441779 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(80, -166)
-inventory_icon = ExtResource("15_ss1u1")
+inventory_icon = ExtResource("15_v52j8")
 box_sprite = ExtResource("16_8xfdk")
 open_sound = ExtResource("14_p4h1h")
 open_animation_name = "green_box_animation"

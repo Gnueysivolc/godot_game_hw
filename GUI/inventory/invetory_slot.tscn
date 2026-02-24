@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://7wpm0mfo2mk6" path="res://GUI/inventory/inventory_slot.gd" id="1_123k0"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_123k0"]
+
 [node name="invetory_slot" type="Panel" unique_id=58269576]
+custom_minimum_size = Vector2(96, 96)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_123k0")
 script = ExtResource("1_123k0")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=260037495]
