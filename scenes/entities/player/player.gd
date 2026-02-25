@@ -57,11 +57,10 @@ func play_idle() -> void:
 		
 # listen to keyboard events
 func _input(event):
-	if event.is_action_pressed("click"):
-		print("Click at: ", get_global_mouse_position())
-		var texture = load("res://asset/props/bed.png")
-		get_parent().get_node("inventoryUI").add_item(texture)
 
+	if event.is_action_pressed("click"):
+		print("Upgrade inventory by 1")
+		Global.increase_inventory_size(1)
 
 	if event.is_action_pressed("interact"):
 		interact_pressed.emit()

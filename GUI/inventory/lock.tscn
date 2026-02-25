@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://l2r0lsky17fg"]
+
+[ext_resource type="Texture2D" uid="uid://bnokcu6dabb4g" path="res://GUI/inventory/lock.png" id="1_0d4k4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0d4k4"]
+
+[node name="Lock" type="Panel" unique_id=1063494873]
+custom_minimum_size = Vector2(100, 100)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0d4k4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2099820709]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.48708576, 0.5211362)
+texture = ExtResource("1_0d4k4")
