@@ -18,6 +18,10 @@ config/name="MH project"
 run/main_scene="uid://dhbmyqtp5uyo1"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
+[autoload]
+
+Global="*uid://ilne6si0wjh"
+
 [display]
 
 window/size/viewport_width=1920
