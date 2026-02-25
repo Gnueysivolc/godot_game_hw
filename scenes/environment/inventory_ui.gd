@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var vbox = $MarginContainer/VBoxContainer
+@onready var vbox = $Control/MarginContainer/VBoxContainer
 var slot_scene = preload("res://GUI/inventory/invetory_slot.tscn")
 
 var items: Array = []
