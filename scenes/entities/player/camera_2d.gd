@@ -5,10 +5,10 @@ func _ready() -> void:
 	enabled = true
 	
 	# Set limits to your room bounds - adjust these to YOUR wall positions
-	limit_left = -194
-	limit_right = 2172
-	limit_top = -79
-	limit_bottom = 1125
+	limit_left = -0
+	limit_right = 1050
+	limit_top = 2
+	limit_bottom = 590
 	
 	limit_smoothed = true
 

@@ -6,10 +6,15 @@
 
 [node name="invetory_slot" type="Panel" unique_id=58269576]
 custom_minimum_size = Vector2(96, 96)
+offset_right = 232.0
+offset_bottom = 288.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_123k0")
 script = ExtResource("1_123k0")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=260037495]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 136.0
+offset_bottom = 144.0
+expand_mode = 3

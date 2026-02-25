@@ -21,29 +21,31 @@ offset_bottom = 40.0
 
 [node name="TextureRect" type="TextureRect" parent="Control" unique_id=146584180]
 layout_mode = 0
-offset_left = -456.0
-offset_top = -176.0
-offset_right = 1544.0
-offset_bottom = 1824.0
+offset_left = -207.99998
+offset_top = -88.00001
+offset_right = 1747.2476
+offset_bottom = 1912.0
+scale = Vector2(0.4541624, 0.48794237)
 texture = ExtResource("3_yu0hs")
+expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=188816057]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -24.0
-offset_right = 200.0
-offset_bottom = 760.0
+offset_right = 88.0
+offset_bottom = 504.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer" unique_id=1049776723]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
-theme_override_constants/separation = 133
+theme_override_constants/separation = 15
 metadata/_edit_use_anchors_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1767758310]
+[node name="lock" type="MarginContainer" parent="." unique_id=1767758310]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1381348549]
+[node name="VBoxContainer" type="VBoxContainer" parent="lock" unique_id=1381348549]
 layout_mode = 2

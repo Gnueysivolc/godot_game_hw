@@ -195,6 +195,10 @@ hframes = 37
 shape = SubResource("CircleShape2D_0e48y")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1316168337]
+limit_left = 0
+limit_top = 2
+limit_right = 1050
+limit_bottom = 590
 script = ExtResource("3_58kc7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=357562000]
