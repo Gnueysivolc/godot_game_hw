@@ -23,23 +23,6 @@ var items: Array = []          # stores slot nodes
 var lock_nodes: Array = []
 var active_orders: Array[OrderCard] = []
 
-@export var max_active_orders: int = 3
-@export var order_spawn_interval: float = 10.0
-@export var order_time_limit: float = 15.0
-@export var order_length_min: int = 3
-@export var order_length_max: int = 5
-
-@export var allowed_order_items: Array[ItemTypes.ItemType] = [
-	ItemTypes.ItemType.RED_PILL,
-	ItemTypes.ItemType.BLUE_PILL,
-	ItemTypes.ItemType.GREEN_PILL,
-	ItemTypes.ItemType.PURPLE_PILL,
-	ItemTypes.ItemType.RED_INJECTION,
-	ItemTypes.ItemType.BLUE_INJECTION,
-	ItemTypes.ItemType.GREEN_INJECTION,
-	ItemTypes.ItemType.PURPLE_INJECTION
-]
-
 var order_spawn_elapsed := 0.0
 
 
@@ -52,7 +35,7 @@ func _ready():
 
 func _process(delta: float) -> void:
 	order_spawn_elapsed += delta
-	if order_spawn_elapsed >= order_spawn_interval:
+	if order_spawn_elapsed >= Global.order_spawn_interval:
 		order_spawn_elapsed = 0.0
 		_try_spawn_order()
 
@@ -147,33 +130,33 @@ func submit_top_item_to_orders() -> bool:
 
 
 func spawn_debug_order(sequence: Array[ItemTypes.ItemType], time_limit: float = -1.0) -> bool:
-	if active_orders.size() >= max_active_orders:
+	if active_orders.size() >= Global.max_active_orders:
 		return false
 
 	if sequence.is_empty():
 		return false
 
-	var duration: float = order_time_limit if time_limit <= 0 else time_limit
+	var duration: float = Global.order_time_limit if time_limit <= 0 else time_limit
 	_create_order(sequence, duration)
 	return true
 
 
 func _try_spawn_order() -> void:
-	if active_orders.size() >= max_active_orders:
+	if active_orders.size() >= Global.max_active_orders:
 		return
 
-	if allowed_order_items.is_empty():
+	if Global.allowed_order_items.is_empty():
 		return
 
-	var count: int = randi_range(order_length_min, order_length_max)
+	var count: int = randi_range(Global.order_length_min, Global.order_length_max)
 	count = min(count, 6) # scene has six slot icons
 	count = max(count, 1)
 
 	var sequence: Array[ItemTypes.ItemType] = []
 	for i in range(count):
-		sequence.append(allowed_order_items.pick_random())
+		sequence.append(Global.allowed_order_items.pick_random())
 
-	_create_order(sequence, order_time_limit)
+	_create_order(sequence, Global.order_time_limit)
 
 
 func _create_order(sequence: Array[ItemTypes.ItemType], time_limit: float) -> void:

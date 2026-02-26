@@ -3,13 +3,6 @@ extends Node2D
 @onready var inventory_ui: InventoryUI = $inventoryUI
 @onready var submit_station: Node2D = $submit
 
-@export var debug_time_limit: float = 15.0
-@export var debug_order_sequence: Array[ItemTypes.ItemType] = [
-	ItemTypes.ItemType.RED_PILL,
-	ItemTypes.ItemType.BLUE_PILL,
-	ItemTypes.ItemType.GREEN_PILL
-]
-
 func _ready():
 	for box in get_tree().get_nodes_in_group("loot_box"):
 		box.item_obtained.connect(_on_box_item_obtained)
@@ -24,15 +17,15 @@ func _input(event: InputEvent) -> void:
 
 
 func _run_debug_order_test() -> void:
-	if debug_order_sequence.is_empty():
+	if Global.debug_order_sequence.is_empty():
 		push_warning("debug_order_sequence is empty; add at least 1 item in inspector.")
 		return
 
-	var spawned: bool = inventory_ui.spawn_debug_order(debug_order_sequence, debug_time_limit)
+	var spawned: bool = inventory_ui.spawn_debug_order(Global.debug_order_sequence, Global.debug_time_limit)
 	if not spawned:
 		push_warning("Could not spawn debug order (max active orders reached).")
 		return
-	print("Debug order spawned:", debug_order_sequence)
+	print("Debug order spawned:", Global.debug_order_sequence)
 
 
 func _on_box_item_obtained(item_type: ItemTypes.ItemType) -> void:

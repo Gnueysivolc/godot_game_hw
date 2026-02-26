@@ -6,7 +6,6 @@
 
 [node name="inventoryUI" type="CanvasLayer" unique_id=304815659]
 script = ExtResource("1_ghr41")
-order_time_limit = 30.0
 
 [node name="OrdersHBox" type="HBoxContainer" parent="." unique_id=187411111]
 offset_left = 280.0

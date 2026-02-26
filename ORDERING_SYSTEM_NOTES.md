@@ -86,16 +86,13 @@
 
 ## Tunables To Edit Quickly
 
-In `scenes/environment/inventory_ui.gd`:
+In `global.gd`:
 
 - `max_active_orders` (default 3)
 - `order_spawn_interval` (default 10.0)
 - `order_time_limit` (default 15.0)
 - `order_length_min` / `order_length_max`
 - `allowed_order_items`
-
-In `scenes/environment/clinic_map.gd`:
-
 - `debug_order_sequence`
 - `debug_time_limit`
 
