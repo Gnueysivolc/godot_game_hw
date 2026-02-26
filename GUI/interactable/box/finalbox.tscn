@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c1k70xkphh4bj"]
 
 [ext_resource type="Script" uid="uid://bu7ydamdif6al" path="res://GUI/interactable/box/finalbox.gd" id="1_vxj82"]
-[ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="2_ynk5t"]
+[ext_resource type="Texture2D" uid="uid://cyohiwtpiubg" path="res://GUI/interactable/box/purple_injection_animation.png" id="2_5enwo"]
 [ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="3_4ixkq"]
 [ext_resource type="Texture2D" uid="uid://bqqg2a3lgtl0l" path="res://GUI/interactable/box/progress_bar_under.png" id="4_4ixkq"]
 [ext_resource type="Texture2D" uid="uid://b5l6g3vt0u03l" path="res://GUI/interactable/box/progress_bar_progress.png" id="5_5enwo"]
@@ -20,6 +20,70 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_bef78"]
+resource_name = "blue_box_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_ds0sl"]
+resource_name = "blue_injection_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
 }
 
 [sub_resource type="Animation" id="Animation_buihe"]
@@ -69,8 +133,104 @@ tracks/1/keys = {
 }
 tracks/1/use_blend = true
 
+[sub_resource type="Animation" id="Animation_fp3f3"]
+resource_name = "green_injection_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_w0x7u"]
+resource_name = "purple_box_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_jbui6"]
+resource_name = "purple_injection_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="Animation" id="Animation_86adg"]
-resource_name = "open_and_close"
+resource_name = "red_box_animation"
 length = 0.5
 step = 0.1666
 tracks/0/type = "audio"
@@ -101,12 +261,50 @@ tracks/1/keys = {
 "values": [0, 1, 2]
 }
 
+[sub_resource type="Animation" id="Animation_ufpb3"]
+resource_name = "red_injection_animation"
+length = 0.5
+step = 0.1666
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_4ixkq")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1666, 0.3332),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5enwo"]
 _data = {
 &"RESET": SubResource("Animation_k112n"),
+&"blue_box_animation": SubResource("Animation_bef78"),
+&"blue_injection_animation": SubResource("Animation_ds0sl"),
 &"close": SubResource("Animation_buihe"),
 &"green_box_animation": SubResource("Animation_ynk5t"),
-&"open_and_close": SubResource("Animation_86adg")
+&"green_injection_animation": SubResource("Animation_fp3f3"),
+&"purple_box_animation": SubResource("Animation_w0x7u"),
+&"purple_injection_animation": SubResource("Animation_jbui6"),
+&"red_box_animation": SubResource("Animation_86adg"),
+&"red_injection_animation": SubResource("Animation_ufpb3")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ynk5t"]
@@ -120,7 +318,7 @@ script = ExtResource("1_vxj82")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1592448697]
 position = Vector2(0, -1)
-texture = ExtResource("2_ynk5t")
+texture = ExtResource("2_5enwo")
 hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=99256545]

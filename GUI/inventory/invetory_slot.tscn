@@ -2,7 +2,13 @@
 
 [ext_resource type="Script" uid="uid://7wpm0mfo2mk6" path="res://GUI/inventory/inventory_slot.gd" id="1_123k0"]
 [ext_resource type="Texture2D" uid="uid://dw0vhid8oe5b3" path="res://GUI/inventory/items/real_red_pill.png" id="2_hf4m8"]
+[ext_resource type="Texture2D" uid="uid://bufbm2nx5r5si" path="res://GUI/inventory/items/real_blue_pill.png" id="3_hqp3f"]
 [ext_resource type="Texture2D" uid="uid://bfl3qljkk72kb" path="res://GUI/inventory/items/real_green_pill.png" id="3_sgggl"]
+[ext_resource type="Texture2D" uid="uid://ervyirqtxchj" path="res://GUI/inventory/items/blue_injection.png" id="3_x30ec"]
+[ext_resource type="Texture2D" uid="uid://boshivfktbcbt" path="res://GUI/inventory/items/real_purple_pill.png" id="5_y6cki"]
+[ext_resource type="Texture2D" uid="uid://cl754fco1roqd" path="res://GUI/inventory/items/red_injection.png" id="6_ghdvb"]
+[ext_resource type="Texture2D" uid="uid://bpbvfj1gi0itc" path="res://GUI/inventory/items/purple_injection.png" id="8_75dqu"]
+[ext_resource type="Texture2D" uid="uid://1m45ebcu5tb2" path="res://GUI/inventory/items/green_injection.png" id="9_xcjwd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_123k0"]
 
@@ -13,7 +19,13 @@ offset_bottom = 288.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_123k0")
 script = ExtResource("1_123k0")
 red_icon = ExtResource("2_hf4m8")
+blue_icon = ExtResource("3_hqp3f")
 green_icon = ExtResource("3_sgggl")
+purple_icon = ExtResource("5_y6cki")
+red_injection = ExtResource("6_ghdvb")
+blue_injection = ExtResource("3_x30ec")
+purple_injection = ExtResource("8_75dqu")
+green_injection = ExtResource("9_xcjwd")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=260037495]
 layout_mode = 0

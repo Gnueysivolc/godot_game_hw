@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2mhpmqhvqtb1"
-path="res://.godot/imported/blue_pill.png-06e5b8a28a3be7eda47b25658a434fb4.ctex"
+uid="uid://bpbvfj1gi0itc"
+path="res://.godot/imported/purple_injection.png-3db6fb544e62542412b7d10aba45399d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GUI/inventory/items/blue_pill.png"
-dest_files=["res://.godot/imported/blue_pill.png-06e5b8a28a3be7eda47b25658a434fb4.ctex"]
+source_file="res://GUI/inventory/items/purple_injection.png"
+dest_files=["res://.godot/imported/purple_injection.png-3db6fb544e62542412b7d10aba45399d.ctex"]
 
 [params]
 
