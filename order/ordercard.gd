@@ -14,7 +14,7 @@ signal timed_out
 @onready var slots: Array[TextureRect] = []
 
 func _ready():
-	print("Slots count:", slots.size())
+	slots.clear()
 	for child in $HBoxContainer.get_children():
 		if child is TextureRect:
 			slots.append(child)
@@ -25,6 +25,11 @@ func _ready():
 @export var red_icon: Texture2D
 @export var blue_icon: Texture2D
 @export var green_icon: Texture2D
+@export var purple_icon: Texture2D
+@export var red_injection_icon: Texture2D
+@export var blue_injection_icon: Texture2D
+@export var green_injection_icon: Texture2D
+@export var purple_injection_icon: Texture2D
 
 @export var face_normal: Texture2D
 @export var face_sick: Texture2D
@@ -52,17 +57,31 @@ var locked: bool = false
 
 func setup(sequence: Array[ItemTypes.ItemType], time_limit: float):
 	required = sequence.duplicate()   # duplicate for safety
-	duration = time_limit
+	if required.size() > slots.size():
+		required.resize(slots.size())
+	duration = max(time_limit, 0.1)
 	time_left = duration
 	current_step = 0
 	running = true
 	locked = false
 
 	face.texture = face_normal
-	time_bar.value = 1.0
+	time_bar.min_value = 0.0
+	time_bar.max_value = duration
+	time_bar.value = time_left
 
 	_fill_slots()
 	_update_visual()
+
+
+func is_active() -> bool:
+	return running and not locked and current_step < required.size()
+
+
+func peek_expected_item() -> ItemTypes.ItemType:
+	if not is_active():
+		return ItemTypes.ItemType.NONE
+	return required[current_step]
 
 
 # -----------------------
@@ -74,7 +93,7 @@ func _process(delta):
 		return
 
 	time_left -= delta
-	time_bar.value = clamp(time_left / duration, 0.0, 1.0)
+	time_bar.value = max(time_left, 0.0)
 
 	if time_left <= 0:
 		running = false
@@ -124,6 +143,9 @@ func restart():
 	running = true
 	time_left = duration
 	face.texture = face_normal
+	time_bar.min_value = 0.0
+	time_bar.max_value = duration
+	time_bar.value = time_left
 	_update_visual()
 
 
@@ -132,7 +154,6 @@ func restart():
 # -----------------------
 
 func _fill_slots():
-	print("FILLING SLOTS", required)
 	for i in range(slots.size()):
 		if i < required.size():
 			slots[i].texture = _get_icon(required[i])
@@ -142,7 +163,8 @@ func _fill_slots():
 
 
 func _update_visual():
-	for i in range(required.size()):
+	var count: int = min(required.size(), slots.size())
+	for i in range(count):
 		if i < current_step:
 			slots[i].modulate = Color(1, 1, 1)
 		elif i == current_step:
@@ -164,5 +186,15 @@ func _get_icon(type: ItemTypes.ItemType) -> Texture2D:
 			return blue_icon
 		ItemTypes.ItemType.GREEN_PILL:
 			return green_icon
+		ItemTypes.ItemType.PURPLE_PILL:
+			return purple_icon
+		ItemTypes.ItemType.RED_INJECTION:
+			return red_injection_icon
+		ItemTypes.ItemType.BLUE_INJECTION:
+			return blue_injection_icon
+		ItemTypes.ItemType.GREEN_INJECTION:
+			return green_injection_icon
+		ItemTypes.ItemType.PURPLE_INJECTION:
+			return purple_injection_icon
 		_:
 			return null

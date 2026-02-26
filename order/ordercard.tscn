@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" uid="uid://pie0rf5o3848" path="res://order/ordercard.gd" id="1_iaa50"]
 [ext_resource type="Texture2D" uid="uid://dhsmb0u2n0stn" path="res://order/backcard.png" id="2_gmqrs"]
+[ext_resource type="Texture2D" uid="uid://dlruylqhl2ot7" path="res://order/progress_bar_under_new.png" id="3_qsljo"]
+[ext_resource type="Texture2D" uid="uid://dy1wckgjk7ros" path="res://order/progress_bar_progress_new.png" id="4_et45m"]
 
 [node name="Ordercard" type="Panel" unique_id=2124218482]
+custom_minimum_size = Vector2(230, 120)
 script = ExtResource("1_iaa50")
 
 [node name="face" type="TextureRect" parent="." unique_id=494895557]
@@ -17,19 +20,21 @@ texture = ExtResource("2_gmqrs")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1389204994]
 layout_mode = 0
-offset_top = 32.0
-offset_right = 40.0
-offset_bottom = 72.0
-scale = Vector2(0.42339528, 0.3969904)
-max_value = 1.0
+offset_left = -15.999999
+offset_right = 184.0
+offset_bottom = 200.0
+scale = Vector2(1.0190783, 0.445637)
+nine_patch_stretch = true
+texture_under = ExtResource("3_qsljo")
+texture_progress = ExtResource("4_et45m")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1791033906]
 layout_mode = 0
 offset_top = 40.000004
 offset_right = 50.0
 offset_bottom = 100.168915
-scale = Vector2(0.44727665, 0.3952461)
-theme_override_constants/separation = 10
+scale = Vector2(0.20170741, 0.19098464)
+theme_override_constants/separation = -10
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=470762876]
 layout_mode = 2

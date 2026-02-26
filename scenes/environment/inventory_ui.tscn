@@ -6,6 +6,14 @@
 
 [node name="inventoryUI" type="CanvasLayer" unique_id=304815659]
 script = ExtResource("1_ghr41")
+order_time_limit = 30.0
+
+[node name="OrdersHBox" type="HBoxContainer" parent="." unique_id=187411111]
+offset_left = 280.0
+offset_top = 24.0
+offset_right = 1640.0
+offset_bottom = 160.0
+theme_override_constants/separation = 200
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=827556294]
 visible = false

@@ -1,7 +1,6 @@
 extends Node2D
 
-@onready var inventory_ui = $inventoryUI
-@onready var order_card: OrderCard = $inventoryUI/Ordercard
+@onready var inventory_ui: InventoryUI = $inventoryUI
 @onready var submit_station: Node2D = $submit
 
 @export var debug_time_limit: float = 15.0
@@ -25,16 +24,15 @@ func _input(event: InputEvent) -> void:
 
 
 func _run_debug_order_test() -> void:
-	if order_card == null:
-		push_error("Ordercard node not found at /inventoryUI/Ordercard")
-		return
-
 	if debug_order_sequence.is_empty():
 		push_warning("debug_order_sequence is empty; add at least 1 item in inspector.")
 		return
 
-	order_card.setup(debug_order_sequence, debug_time_limit)
-	print("Debug order started:", debug_order_sequence)
+	var spawned: bool = inventory_ui.spawn_debug_order(debug_order_sequence, debug_time_limit)
+	if not spawned:
+		push_warning("Could not spawn debug order (max active orders reached).")
+		return
+	print("Debug order spawned:", debug_order_sequence)
 
 
 func _on_box_item_obtained(item_type: ItemTypes.ItemType) -> void:
@@ -42,4 +40,4 @@ func _on_box_item_obtained(item_type: ItemTypes.ItemType) -> void:
 
 
 func _on_submit_requested() -> void:
-	inventory_ui.submit_top_item_to_order(order_card)
+	inventory_ui.submit_top_item_to_orders()

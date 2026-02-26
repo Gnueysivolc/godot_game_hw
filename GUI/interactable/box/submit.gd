@@ -27,8 +27,8 @@ var float_time := 0.0
 # VISUAL SETTINGS
 # -----------------------
 
-var normal_color := Color(1,1,1,1)
-var highlight_color := Color(1.3,1.3,1.3,1)
+var normal_color: Color = Color(1,1,1,1)
+var highlight_color: Color = Color(1.3,1.3,1.3,1)
 
 # -----------------------
 # READY
@@ -41,7 +41,7 @@ func _ready():
 
 	anim.play("close")
 
-	exclamation.visible = true
+	exclamation.visible = false
 
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
