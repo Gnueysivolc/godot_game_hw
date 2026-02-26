@@ -11,8 +11,13 @@ signal timed_out
 
 @onready var face: TextureRect = $face
 @onready var time_bar: TextureProgressBar = $TextureProgressBar
-@onready var slots: Array = $HBoxContainer.get_children()
+@onready var slots: Array[TextureRect] = []
 
+func _ready():
+	print("Slots count:", slots.size())
+	for child in $HBoxContainer.get_children():
+		if child is TextureRect:
+			slots.append(child)
 # -----------------------
 # ICONS
 # -----------------------
@@ -45,8 +50,8 @@ var locked: bool = false
 # SETUP ORDER
 # -----------------------
 
-func setup(sequence: Array, time_limit: float):
-	required = sequence
+func setup(sequence: Array[ItemTypes.ItemType], time_limit: float):
+	required = sequence.duplicate()   # duplicate for safety
 	duration = time_limit
 	time_left = duration
 	current_step = 0
@@ -79,21 +84,18 @@ func _process(delta):
 
 
 # -----------------------
-# SUBMIT ITEM (ENUM BASED)
+# SUBMIT ITEM
 # -----------------------
 
 func submit_item(item_type: ItemTypes.ItemType) -> bool:
 
-	if not running:
-		return false
-
-	if locked:
+	if not running or locked:
 		return false
 
 	if current_step >= required.size():
 		return false
 
-	var expected = required[current_step]
+	var expected: ItemTypes.ItemType = required[current_step]
 
 	if item_type == expected:
 		current_step += 1
@@ -113,7 +115,7 @@ func submit_item(item_type: ItemTypes.ItemType) -> bool:
 
 
 # -----------------------
-# RESTART AFTER FAIL
+# RESTART
 # -----------------------
 
 func restart():
@@ -126,37 +128,27 @@ func restart():
 
 
 # -----------------------
-# VISUAL FUNCTIONS
+# VISUAL
 # -----------------------
 
 func _fill_slots():
-
+	print("FILLING SLOTS", required)
 	for i in range(slots.size()):
-		var slot: TextureRect = slots[i]
-
 		if i < required.size():
-			slot.texture = _get_icon(required[i])
-			slot.visible = true
+			slots[i].texture = _get_icon(required[i])
+			slots[i].visible = true
 		else:
-			slot.visible = false
+			slots[i].visible = false
 
 
 func _update_visual():
-
 	for i in range(required.size()):
-		var slot: TextureRect = slots[i]
-
 		if i < current_step:
-			# completed steps
-			slot.modulate = Color(1, 1, 1)
-
+			slots[i].modulate = Color(1, 1, 1)
 		elif i == current_step:
-			# next required highlight
-			slot.modulate = Color(1.3, 1.3, 1.3)
-
+			slots[i].modulate = Color(1.3, 1.3, 1.3)
 		else:
-			# future steps dim
-			slot.modulate = Color(0.4, 0.4, 0.4)
+			slots[i].modulate = Color(0.4, 0.4, 0.4)
 
 
 func _dim_all():
@@ -174,6 +166,3 @@ func _get_icon(type: ItemTypes.ItemType) -> Texture2D:
 			return green_icon
 		_:
 			return null
-			
-			
-			
