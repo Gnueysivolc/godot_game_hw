@@ -6,9 +6,10 @@ extends Node2D
 @onready var progress_bar: TextureProgressBar = $RespawnBar
 @onready var exclamation: Sprite2D = $Exclamation
 
+# 🔥 ENUM VERSION
+signal item_obtained(item_type: ItemTypes.ItemType)
 
-signal item_obtained(texture: Texture2D)
-@export var inventory_icon: Texture2D
+@export var item_type: ItemTypes.ItemType   # choose RED_PILL etc in inspector
 
 # Visual
 @export var box_sprite: Texture2D
@@ -18,7 +19,6 @@ signal item_obtained(texture: Texture2D)
 
 # Animation
 @export var open_animation_name: String = "open_and_close"
-
 
 # -----------------------
 # CONFIG
@@ -65,20 +65,16 @@ func _ready():
 	area.body_exited.connect(_on_body_exited)
 	anim.animation_finished.connect(_on_animation_finished)
 
-
-
 # -----------------------
 # PROCESS
 # -----------------------
 
 func _process(delta):
 
-	# floating exclamation effect
 	if is_ready:
 		float_time += delta
 		exclamation.position.y = -20 + sin(float_time * 4.0) * 2.0
 
-	# cooldown logic
 	if is_counting:
 		timer += delta
 		
@@ -90,7 +86,6 @@ func _process(delta):
 			is_ready = true
 			progress_bar.visible = false
 			exclamation.visible = true
-
 
 # -----------------------
 # PLAYER ENTER / EXIT
@@ -104,7 +99,6 @@ func _on_body_entered(body):
 		if not body.interact_pressed.is_connected(_on_player_interact):
 			body.interact_pressed.connect(_on_player_interact)
 
-		# brighten
 		var tween = create_tween()
 		tween.tween_property(sprite, "modulate", highlight_color, 0.15)
 
@@ -118,10 +112,8 @@ func _on_body_exited(body):
 		
 		current_player = null
 		
-		# return color
 		var tween = create_tween()
 		tween.tween_property(sprite, "modulate", normal_color, 0.15)
-
 
 # -----------------------
 # INTERACT
@@ -129,7 +121,6 @@ func _on_body_exited(body):
 
 func _on_player_interact():
 	
-
 	if not is_ready:
 		return
 		
@@ -138,21 +129,17 @@ func _on_player_interact():
 
 	is_animating = true
 
-	# Play configurable animation
 	anim.play(open_animation_name)
 
-	# Play configurable sound
 	if open_sound:
 		$AudioStreamPlayer2D.stream = open_sound
 		$AudioStreamPlayer2D.play()
 
-	print("item obtained!")
+	print("item obtained:", item_type)
 
-	# Emit item to inventory
-	if inventory_icon:
-		emit_signal("item_obtained", inventory_icon)
+	# 🔥 EMIT ENUM, NOT TEXTURE
+	emit_signal("item_obtained", item_type)
 
-	# Start cooldown
 	is_ready = false
 	is_counting = true
 	timer = 0.0
@@ -160,11 +147,6 @@ func _on_player_interact():
 	progress_bar.value = 0
 	progress_bar.visible = true
 	exclamation.visible = false
-
-
-
-
-
 
 # -----------------------
 # ANIMATION FINISHED

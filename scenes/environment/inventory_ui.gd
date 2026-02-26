@@ -6,7 +6,7 @@ extends CanvasLayer
 var slot_scene = preload("res://GUI/inventory/invetory_slot.tscn")
 var lock_scene = preload("res://GUI/inventory/lock.tscn")
 
-var items: Array = []
+var items: Array = []          # stores slot nodes
 var lock_nodes: Array = []
 
 
@@ -15,50 +15,63 @@ func _ready():
 	Global.inventory_upgraded.connect(update_locks)
 
 
-func add_item(texture: Texture2D):
+# ---------------------------
+# ADD ITEM (ENUM BASED)
+# ---------------------------
+func add_item(item_type: ItemTypes.ItemType):
 
 	if items.size() >= Global.unlocked_inventory_slots:
+		print(items.size())
+		print(Global.unlocked_inventory_slots)
 		print("Inventory full")
 		return
 
 	var slot = slot_scene.instantiate()
-	slot.set_texture(texture)
 
-	items_vbox.add_child(slot)
+	items_vbox.add_child(slot)      # 🔥 ADD FIRST
 	items_vbox.move_child(slot, 0)
+
+	slot.set_item(item_type)        # 🔥 THEN SET
 
 	items.insert(0, slot)
 
 
+# ---------------------------
+# USE ITEM (SEND TO ORDER)
+# ---------------------------
 func use_item():
 
 	if items.is_empty():
 		return
 
 	var slot = items[0]
-	slot.queue_free()
-	items.remove_at(0)
+	var item_type = slot.item_type
 
+	# find station automatically
+	var station = get_tree().get_first_node_in_group("patient_station")
 
+	if station == null:
+		return
+
+	var success = station.submit_item(item_type)
+
+	if success:
+		slot.queue_free()
+		items.remove_at(0)
+
+# ---------------------------
+# LOCK SYSTEM (UNCHANGED)
+# ---------------------------
 func update_locks():
 
-	# Remove old locks
 	for lock in lock_nodes:
 		lock.queue_free()
 
 	lock_nodes.clear()
 
-	print("clear lock")
-
 	var lock_count = Global.total_inventory_slots - Global.unlocked_inventory_slots
 
 	for i in range(lock_count):
-		print("add lock:", i)
-
 		var lock = lock_scene.instantiate()
-
-		lock_vbox.add_child(lock)     # ← bottom insert
-		lock_nodes.append(lock)       # ← match visual order
-		
-		
-		
+		lock_vbox.add_child(lock)
+		lock_nodes.append(lock)

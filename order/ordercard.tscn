@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://dhjn7chgqovep"]
+
+[ext_resource type="Script" uid="uid://pie0rf5o3848" path="res://order/ordercard.gd" id="1_iaa50"]
+
+[node name="Ordercard" type="Panel" unique_id=2124218482]
+script = ExtResource("1_iaa50")
+
+[node name="face" type="TextureRect" parent="." unique_id=494895557]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1.6029956, 0.80495036)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1389204994]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 72.0
+scale = Vector2(1.602109, 0.39748505)
+max_value = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1791033906]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 50.0
+offset_bottom = 88.0
+scale = Vector2(1.284266, 0.39172074)
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=470762876]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer" unique_id=1540211219]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer" unique_id=672141938]
+layout_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="HBoxContainer" unique_id=886901327]
+layout_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="HBoxContainer" unique_id=580161282]
+layout_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="HBoxContainer" unique_id=2097648286]
+layout_mode = 2
