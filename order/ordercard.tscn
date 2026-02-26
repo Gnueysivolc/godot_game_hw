@@ -20,7 +20,7 @@ layout_mode = 0
 offset_top = 32.0
 offset_right = 40.0
 offset_bottom = 72.0
-scale = Vector2(0.34468475, 0.43552807)
+scale = Vector2(0.42339528, 0.3969904)
 max_value = 1.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1791033906]

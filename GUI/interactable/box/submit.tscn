@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://pofpld3udggg"]
 
 [ext_resource type="Script" uid="uid://dcjti2ferhtyu" path="res://GUI/interactable/box/submit.gd" id="1_5de5m"]
-[ext_resource type="Texture2D" uid="uid://b3ivk0sjr3egl" path="res://GUI/interactable/box/green_box_animation.png" id="2_ocdd4"]
+[ext_resource type="Texture2D" uid="uid://c73tupb83fsi8" path="res://GUI/interactable/box/submit_box_animation.png" id="2_5de5m"]
 [ext_resource type="AudioStream" uid="uid://b0ansybtq58w6" path="res://GUI/interactable/box/openbox.wav" id="3_s2o3n"]
-[ext_resource type="Texture2D" uid="uid://bqqg2a3lgtl0l" path="res://GUI/interactable/box/progress_bar_under.png" id="4_gsle4"]
-[ext_resource type="Texture2D" uid="uid://b5l6g3vt0u03l" path="res://GUI/interactable/box/progress_bar_progress.png" id="5_a1i5s"]
 [ext_resource type="Texture2D" uid="uid://dbjxkyghp421c" path="res://GUI/interactable/box/exclamation.png" id="6_ghsog"]
 
 [sub_resource type="Animation" id="Animation_k112n"]
@@ -101,12 +99,45 @@ tracks/1/keys = {
 }
 tracks/1/use_blend = true
 
+[sub_resource type="Animation" id="Animation_ocdd4"]
+resource_name = "submit_box_animation"
+length = 0.5
+step = 0.1667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1667, 0.3334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_s2o3n")
+}],
+"times": PackedFloat32Array(0.16666667)
+}
+tracks/1/use_blend = true
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5enwo"]
 _data = {
 &"RESET": SubResource("Animation_k112n"),
 &"close": SubResource("Animation_buihe"),
 &"green_box_animation": SubResource("Animation_ynk5t"),
-&"open_and_close": SubResource("Animation_86adg")
+&"open_and_close": SubResource("Animation_86adg"),
+&"submit_box_animation": SubResource("Animation_ocdd4")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ynk5t"]
@@ -120,7 +151,8 @@ script = ExtResource("1_5de5m")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1592448697]
 position = Vector2(0, -1)
-texture = ExtResource("2_ocdd4")
+scale = Vector2(1, 1.0053065)
+texture = ExtResource("2_5de5m")
 hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=99256545]
@@ -143,17 +175,6 @@ monitorable = false
 position = Vector2(2.125, 1.875)
 shape = SubResource("RectangleShape2D_bef78")
 debug_color = Color(0.24998823, 0.90947145, 0.24218619, 0.41960785)
-
-[node name="RespawnBar" type="TextureProgressBar" parent="." unique_id=1937346834]
-offset_left = -45.0
-offset_top = -91.0
-offset_right = 55.0
-offset_bottom = 9.0
-value = 100.0
-nine_patch_stretch = true
-texture_under = ExtResource("4_gsle4")
-texture_progress = ExtResource("5_a1i5s")
-texture_progress_offset = Vector2(-2, 9)
 
 [node name="Exclamation" type="Sprite2D" parent="." unique_id=1164209059]
 position = Vector2(3, -42)

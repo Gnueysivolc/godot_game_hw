@@ -24,6 +24,8 @@
 [ext_resource type="Texture2D" uid="uid://cyohiwtpiubg" path="res://GUI/interactable/box/purple_injection_animation.png" id="19_kyfsy"]
 [ext_resource type="PackedScene" uid="uid://dhjn7chgqovep" path="res://order/ordercard.tscn" id="20_ss1u1"]
 [ext_resource type="Texture2D" uid="uid://dhsmb0u2n0stn" path="res://order/backcard.png" id="21_q0q0q"]
+[ext_resource type="PackedScene" uid="uid://pofpld3udggg" path="res://GUI/interactable/box/submit.tscn" id="25_m83tt"]
+[ext_resource type="Texture2D" uid="uid://c73tupb83fsi8" path="res://GUI/interactable/box/submit_box_animation.png" id="26_2hgch"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x8lf1"]
 texture = ExtResource("1_ovgxd")
@@ -1059,3 +1061,8 @@ position = Vector2(323.1125, 229.43623)
 item_type = 8
 box_sprite = ExtResource("19_kyfsy")
 open_animation_name = "purple_injection_animation"
+
+[node name="submit" parent="." unique_id=874708262 instance=ExtResource("25_m83tt")]
+position = Vector2(-484.66867, 8.194152)
+box_sprite = ExtResource("26_2hgch")
+open_animation_name = "submit_box_animation"

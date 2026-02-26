@@ -59,6 +59,23 @@ func use_item():
 		slot.queue_free()
 		items.remove_at(0)
 
+
+func submit_top_item_to_order(order_card: OrderCard) -> bool:
+	if items.is_empty():
+		return false
+
+	var slot = items[0]
+	var success := false
+
+	if order_card != null:
+		success = order_card.submit_item(slot.item_type)
+
+	# Submit station should consume one item per interaction.
+	slot.queue_free()
+	items.remove_at(0)
+
+	return success
+
 # ---------------------------
 # LOCK SYSTEM (UNCHANGED)
 # ---------------------------
