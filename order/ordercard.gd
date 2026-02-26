@@ -34,6 +34,12 @@ func _ready():
 @export var face_normal: Texture2D
 @export var face_sick: Texture2D
 @export var face_sad: Texture2D
+@export var face_by_length_easy: Texture2D
+@export var face_by_length_medium: Texture2D
+@export var face_by_length_hard: Texture2D
+@export var time_color_normal: Color = Color(0.2, 0.9, 0.35, 1.0)
+@export var time_color_warning: Color = Color(1.0, 0.8, 0.2, 1.0)
+@export var time_color_danger: Color = Color(1.0, 0.2, 0.2, 1.0)
 
 # -----------------------
 # ORDER DATA
@@ -50,6 +56,7 @@ var duration: float = 10.0
 var time_left: float = 0.0
 var running: bool = false
 var locked: bool = false
+var base_face_texture: Texture2D
 
 # -----------------------
 # SETUP ORDER
@@ -65,10 +72,12 @@ func setup(sequence: Array[ItemTypes.ItemType], time_limit: float):
 	running = true
 	locked = false
 
-	face.texture = face_normal
+	base_face_texture = _get_face_for_required_count(required.size())
+	face.texture = base_face_texture
 	time_bar.min_value = 0.0
 	time_bar.max_value = duration
 	time_bar.value = time_left
+	_update_time_bar_color()
 
 	_fill_slots()
 	_update_visual()
@@ -84,6 +93,14 @@ func peek_expected_item() -> ItemTypes.ItemType:
 	return required[current_step]
 
 
+func get_time_left() -> float:
+	return max(time_left, 0.0)
+
+
+func get_required_count() -> int:
+	return required.size()
+
+
 # -----------------------
 # PROCESS (TIMER)
 # -----------------------
@@ -94,6 +111,7 @@ func _process(delta):
 
 	time_left -= delta
 	time_bar.value = max(time_left, 0.0)
+	_update_time_bar_color()
 
 	if time_left <= 0:
 		running = false
@@ -142,10 +160,11 @@ func restart():
 	locked = false
 	running = true
 	time_left = duration
-	face.texture = face_normal
+	face.texture = base_face_texture
 	time_bar.min_value = 0.0
 	time_bar.max_value = duration
 	time_bar.value = time_left
+	_update_time_bar_color()
 	_update_visual()
 
 
@@ -178,6 +197,19 @@ func _dim_all():
 		slot.modulate = Color(0.2, 0.2, 0.2)
 
 
+func _update_time_bar_color() -> void:
+	var ratio: float = 0.0
+	if duration > 0.0:
+		ratio = clamp(time_left / duration, 0.0, 1.0)
+
+	if ratio <= 0.5:
+		time_bar.tint_progress = time_color_danger
+	elif ratio <= 0.75:
+		time_bar.tint_progress = time_color_warning
+	else:
+		time_bar.tint_progress = time_color_normal
+
+
 func _get_icon(type: ItemTypes.ItemType) -> Texture2D:
 	match type:
 		ItemTypes.ItemType.RED_PILL:
@@ -198,3 +230,25 @@ func _get_icon(type: ItemTypes.ItemType) -> Texture2D:
 			return purple_injection_icon
 		_:
 			return null
+
+
+func _get_face_for_required_count(item_count: int) -> Texture2D:
+	# 1-2 -> normal, 3-4 -> sad, 5-6 -> very_sad
+	if item_count >= 5:
+		return _resolve_face_texture(face_by_length_hard, "res://order/very_sad.png")
+	if item_count >= 3:
+		return _resolve_face_texture(face_by_length_medium, "res://order/sad.png")
+	return _resolve_face_texture(face_by_length_easy, "res://order/normal.png")
+
+
+func _resolve_face_texture(exported_tex: Texture2D, fallback_path: String) -> Texture2D:
+	if exported_tex != null:
+		return exported_tex
+
+	if ResourceLoader.exists(fallback_path):
+		var loaded: Resource = load(fallback_path)
+		if loaded is Texture2D:
+			return loaded
+
+	# Final fallback to current default face if dedicated files are not present yet.
+	return face_normal

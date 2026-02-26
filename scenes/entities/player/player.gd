@@ -5,9 +5,9 @@ signal direction_changed(new_direction: Vector2)
 
 signal interact_pressed
 
-@export var speed: int = 800
+var speed: int = 0
 var move_direction: Vector2 = Vector2.ZERO
-var facing_direction: Vector2 = Vector2(0, 1)
+var facing_direction: Vector2 = Vector2.ZERO
 @onready var anim: AnimationPlayer = $AnimationPlayer
 
 @onready var inventory_ui = get_parent().get_node("inventoryUI")
@@ -15,6 +15,8 @@ var facing_direction: Vector2 = Vector2(0, 1)
 
 
 func _ready() -> void:
+	speed = Global.player_move_speed
+	facing_direction = Global.player_default_facing_direction
 	anim.play("down_idle")
 
 func _physics_process(_delta: float) -> void:
@@ -59,8 +61,8 @@ func play_idle() -> void:
 func _input(event):
 
 	if event.is_action_pressed("click"):
-		print("Upgrade inventory by 1")
-		Global.increase_inventory_size(1)
+		print("Upgrade inventory by:", Global.debug_inventory_upgrade_amount)
+		Global.increase_inventory_size(Global.debug_inventory_upgrade_amount)
 
 	if event.is_action_pressed("interact"):
 		interact_pressed.emit()

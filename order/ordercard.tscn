@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dhjn7chgqovep"]
 
 [ext_resource type="Script" uid="uid://pie0rf5o3848" path="res://order/ordercard.gd" id="1_iaa50"]
-[ext_resource type="Texture2D" uid="uid://dhsmb0u2n0stn" path="res://order/backcard.png" id="2_gmqrs"]
 [ext_resource type="Texture2D" uid="uid://dlruylqhl2ot7" path="res://order/progress_bar_under_new.png" id="3_qsljo"]
 [ext_resource type="Texture2D" uid="uid://dy1wckgjk7ros" path="res://order/progress_bar_progress_new.png" id="4_et45m"]
 
@@ -11,30 +10,31 @@ script = ExtResource("1_iaa50")
 
 [node name="face" type="TextureRect" parent="." unique_id=494895557]
 layout_mode = 0
-offset_left = -80.0
-offset_top = -32.0
-offset_right = 420.0
-offset_bottom = 468.0
-scale = Vector2(0.693159, 0.39901936)
-texture = ExtResource("2_gmqrs")
+offset_left = -104.00001
+offset_top = -80.0
+offset_right = 396.0
+offset_bottom = 420.0
+scale = Vector2(1.0184579, 0.7647621)
+expand_mode = 1
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1389204994]
 layout_mode = 0
-offset_left = -15.999999
-offset_right = 184.0
-offset_bottom = 200.0
-scale = Vector2(1.0190783, 0.445637)
+offset_left = -31.6
+offset_top = 44.0
+offset_right = 168.4
+offset_bottom = 244.0
+scale = Vector2(1.7608691, 0.48445)
 nine_patch_stretch = true
 texture_under = ExtResource("3_qsljo")
 texture_progress = ExtResource("4_et45m")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1791033906]
 layout_mode = 0
-offset_top = 40.000004
+offset_top = 80.0
 offset_right = 50.0
-offset_bottom = 100.168915
+offset_bottom = 140.16891
 scale = Vector2(0.20170741, 0.19098464)
-theme_override_constants/separation = -10
+theme_override_constants/separation = -50
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=470762876]
 layout_mode = 2

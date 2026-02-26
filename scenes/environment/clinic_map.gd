@@ -1,15 +1,21 @@
 extends Node2D
 
 @onready var inventory_ui: InventoryUI = $inventoryUI
-@onready var submit_station: Node2D = $submit
 
 func _ready():
 	for box in get_tree().get_nodes_in_group("loot_box"):
 		box.item_obtained.connect(_on_box_item_obtained)
 
-	if submit_station and submit_station.has_signal("submit_requested"):
-		if not submit_station.is_connected("submit_requested", Callable(self, "_on_submit_requested")):
-			submit_station.connect("submit_requested", Callable(self, "_on_submit_requested"))
+	_connect_submit_stations()
+
+
+func _connect_submit_stations() -> void:
+	for node in get_children():
+		if not node.has_signal("submit_requested"):
+			continue
+		if node.is_connected("submit_requested", Callable(self, "_on_submit_requested")):
+			continue
+		node.connect("submit_requested", Callable(self, "_on_submit_requested"))
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):

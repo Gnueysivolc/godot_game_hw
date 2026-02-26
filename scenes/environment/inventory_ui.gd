@@ -4,10 +4,12 @@ class_name InventoryUI
 @onready var items_vbox = $Control/MarginContainer/VBoxContainer
 @onready var lock_vbox = $lock/VBoxContainer
 @onready var orders_hbox = $OrdersHBox
+@onready var score_label: Label = $ScoreLabel
 
 var slot_scene = preload("res://GUI/inventory/invetory_slot.tscn")
 var lock_scene = preload("res://GUI/inventory/lock.tscn")
 var order_card_scene = preload("res://order/ordercard.tscn")
+const SCORE_BASE: float = 100.0
 
 const RED_PILL_ICON: Texture2D = preload("res://GUI/inventory/items/real_red_pill.png")
 const BLUE_PILL_ICON: Texture2D = preload("res://GUI/inventory/items/real_blue_pill.png")
@@ -28,6 +30,8 @@ var order_spawn_elapsed := 0.0
 
 func _ready():
 	randomize()
+	Global.score = 0.0
+	_update_score_label()
 	update_locks()
 	Global.inventory_upgraded.connect(update_locks)
 	_try_spawn_order()
@@ -191,7 +195,18 @@ func _configure_order_visuals(order: OrderCard) -> void:
 
 
 func _on_order_completed(order: OrderCard) -> void:
+	var time_left: float = order.get_time_left()
+	var item_count: int = order.get_required_count()
+	var added_score: float = SCORE_BASE * time_left * float(item_count)
+	Global.score += added_score
+	_update_score_label()
+
 	print("Order completed successfully.")
+	print(
+		"Score formula: ", SCORE_BASE, " * ", time_left, " * ", item_count,
+		" = ", added_score
+	)
+	print("Score added: ", added_score, " | Total score: ", Global.score)
 	_remove_order(order)
 
 
@@ -209,6 +224,10 @@ func _remove_order(order: OrderCard) -> void:
 
 	if is_instance_valid(order):
 		order.queue_free()
+
+
+func _update_score_label() -> void:
+	score_label.text = "Score: %.1f" % Global.score
 
 # ---------------------------
 # LOCK SYSTEM (UNCHANGED)

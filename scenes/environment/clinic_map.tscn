@@ -1045,3 +1045,8 @@ open_animation_name = "purple_injection_animation"
 position = Vector2(-484.66867, 8.194152)
 box_sprite = ExtResource("26_2hgch")
 open_animation_name = "submit_box_animation"
+
+[node name="submit2" parent="." unique_id=350701557 instance=ExtResource("25_m83tt")]
+position = Vector2(448.76724, 16.388304)
+box_sprite = ExtResource("26_2hgch")
+open_animation_name = "submit_box_animation"
