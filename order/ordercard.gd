@@ -101,6 +101,10 @@ func get_required_count() -> int:
 	return required.size()
 
 
+func get_duration() -> float:
+	return max(duration, 0.1)
+
+
 # -----------------------
 # PROCESS (TIMER)
 # -----------------------

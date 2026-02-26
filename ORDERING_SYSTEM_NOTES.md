@@ -23,6 +23,36 @@
 
 ## Changes Made In This Iteration
 
+## Wave / Session Layer (new)
+
+- Added session timer (from `Global.game_time_limit`).
+- Added per-wave target score:
+  - starts at `Global.wave_target_base_score`
+  - next wave target multiplies by `Global.wave_target_growth_multiplier`
+- Added HUD labels:
+  - current wave target score
+  - remaining session timer
+- When score reaches wave target:
+  - buff popup appears with 3 choices
+  - choose one to continue to next wave
+- Next wave difficulty:
+  - `Global.order_length_min` and `Global.order_length_max` both increase by 1 (clamped to 6)
+
+### Buff choices
+
+- `more_time`: increases `Global.order_time_limit`
+- `faster_boxes`: decreases `Global.box_respawn_time`
+- `faster_player`: increases `Global.player_move_speed`
+
+## Game End Screen (new)
+
+- When session timer reaches 0:
+  - game ends for ordering loop
+  - game-over popup shows:
+    - patients cured
+    - patient satisfaction (derived from average time used)
+    - final score
+
 ## 1) Multi-order generation and horizontal layout
 
 - Added `OrdersHBox` in `scenes/environment/inventory_ui.tscn`.

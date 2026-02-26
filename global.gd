@@ -16,6 +16,10 @@ var order_spawn_interval: float = 5.0
 var order_time_limit: float = 30.0
 var order_length_min: int = 3
 var order_length_max: int = 6
+var box_respawn_time: float = 5.0
+var wave_target_base_score: float = 1000.0
+var wave_target_growth_multiplier: float = 1.5
+var game_time_limit: float = 180.0
 
 var allowed_order_items: Array[ItemTypes.ItemType] = [
 	ItemTypes.ItemType.RED_PILL,
@@ -62,8 +66,12 @@ const _MODIFIABLE_DEFAULTS := {
 	"max_active_orders": 3,
 	"order_spawn_interval": 5.0,
 	"order_time_limit": 30.0,
-	"order_length_min": 3,
-	"order_length_max": 6,
+	"order_length_min": 1,
+	"order_length_max": 2,
+	"box_respawn_time": 5.0,
+	"wave_target_base_score": 10000.0,
+	"wave_target_growth_multiplier": 2,
+	"game_time_limit": 240.0,
 	"debug_time_limit": 15.0,
 	"player_move_speed": 300,
 	"debug_inventory_upgrade_amount": 1,
@@ -78,8 +86,12 @@ const _MODIFIABLE_LIMITS := {
 	"order_time_limit": {"min": 0.1, "max": 600.0},
 	"order_length_min": {"min": 1, "max": 6},
 	"order_length_max": {"min": 1, "max": 6},
+	"box_respawn_time": {"min": 0.1, "max": 60.0},
+	"wave_target_base_score": {"min": 1.0, "max": 1000000000.0},
+	"wave_target_growth_multiplier": {"min": 1.0, "max": 10.0},
+	"game_time_limit": {"min": 5.0, "max": 7200.0},
 	"debug_time_limit": {"min": 0.1, "max": 600.0},
-	"player_move_speed": {"min": 0, "max": 1000},
+	"player_move_speed": {"min": 50, "max": 2000},
 	"debug_inventory_upgrade_amount": {"min": 0, "max": 6},
 	"score": {"min": 0.0, "max": 10000000.0},
 }
@@ -129,7 +141,7 @@ func modify_value(key: String, operation: String, amount: float) -> bool:
 
 	var base_value: float = float(old_value)
 	var result: float = base_value
-	var op := operation.to_lower()
+	var op: String = operation.to_lower()
 
 	match op:
 		"add", "+":
@@ -172,10 +184,14 @@ func _post_apply_safety() -> void:
 	unlocked_inventory_slots = clamp(unlocked_inventory_slots, 0, total_inventory_slots)
 	order_length_min = max(order_length_min, 1)
 	order_length_max = max(order_length_max, order_length_min)
+	box_respawn_time = max(box_respawn_time, 0.1)
 	player_move_speed = max(player_move_speed, 0)
 	debug_inventory_upgrade_amount = max(debug_inventory_upgrade_amount, 0)
 	order_spawn_interval = max(order_spawn_interval, 0.1)
 	order_time_limit = max(order_time_limit, 0.1)
+	wave_target_base_score = max(wave_target_base_score, 1.0)
+	wave_target_growth_multiplier = max(wave_target_growth_multiplier, 1.0)
+	game_time_limit = max(game_time_limit, 5.0)
 
 
 func _apply_limits() -> void:

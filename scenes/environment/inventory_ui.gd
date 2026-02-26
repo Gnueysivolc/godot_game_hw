@@ -5,6 +5,10 @@ class_name InventoryUI
 @onready var lock_vbox = $lock/VBoxContainer
 @onready var orders_hbox = $OrdersHBox
 @onready var score_label: Label = $ScoreLabel
+@onready var wave_target_label: Label = $WaveTargetLabel
+@onready var game_timer_label: Label = $GameTimerLabel
+@onready var wave_popup: WavePopup = $WavePopup
+@onready var game_over_popup: GameOverPopup = $GameOverPopup
 
 var slot_scene = preload("res://GUI/inventory/invetory_slot.tscn")
 var lock_scene = preload("res://GUI/inventory/lock.tscn")
@@ -25,19 +29,59 @@ var items: Array = []          # stores slot nodes
 var lock_nodes: Array = []
 var active_orders: Array[OrderCard] = []
 
-var order_spawn_elapsed := 0.0
+var order_spawn_elapsed: float = 0.0
+var current_wave: int = 1
+var current_wave_target_score: float = 0.0
+var game_time_left: float = 0.0
+var wave_popup_open: bool = false
+var game_ended: bool = false
+var cured_patients: int = 0
+var total_time_used_ratio: float = 0.0
 
 
 func _ready():
 	randomize()
 	Global.score = 0.0
+	current_wave = 1
+	current_wave_target_score = Global.wave_target_base_score
+	game_time_left = Global.game_time_limit
+	wave_popup_open = false
+	game_ended = false
+	cured_patients = 0
+	total_time_used_ratio = 0.0
+
+	if not wave_popup.buff_chosen.is_connected(_on_wave_buff_chosen):
+		wave_popup.buff_chosen.connect(_on_wave_buff_chosen)
+
 	_update_score_label()
+	_update_wave_target_label()
+	_update_game_timer_label()
 	update_locks()
 	Global.inventory_upgraded.connect(update_locks)
 	_try_spawn_order()
 
 
 func _process(delta: float) -> void:
+	if game_ended:
+		return
+
+	game_time_left -= delta
+	_update_game_timer_label()
+
+	if game_time_left <= 0.0:
+		game_time_left = 0.0
+		_update_game_timer_label()
+		_end_game()
+		return
+
+	if wave_popup_open:
+		wave_popup.update_timer_label(game_time_left)
+		return
+
+	if Global.score >= current_wave_target_score:
+		_show_wave_popup()
+		return
+
 	order_spawn_elapsed += delta
 	if order_spawn_elapsed >= Global.order_spawn_interval:
 		order_spawn_elapsed = 0.0
@@ -94,7 +138,7 @@ func submit_top_item_to_order(order_card: OrderCard) -> bool:
 		return false
 
 	var slot = items[0]
-	var success := false
+	var success: bool = false
 
 	if order_card != null:
 		success = order_card.submit_item(slot.item_type)
@@ -107,12 +151,15 @@ func submit_top_item_to_order(order_card: OrderCard) -> bool:
 
 
 func submit_top_item_to_orders() -> bool:
+	if game_ended or wave_popup_open:
+		return false
+
 	if items.is_empty():
 		return false
 
 	var slot = items[0]
 	var item_type: ItemTypes.ItemType = slot.item_type
-	var success := false
+	var success: bool = false
 
 	for order in active_orders:
 		if not is_instance_valid(order):
@@ -134,6 +181,9 @@ func submit_top_item_to_orders() -> bool:
 
 
 func spawn_debug_order(sequence: Array[ItemTypes.ItemType], time_limit: float = -1.0) -> bool:
+	if game_ended:
+		return false
+
 	if active_orders.size() >= Global.max_active_orders:
 		return false
 
@@ -197,6 +247,11 @@ func _configure_order_visuals(order: OrderCard) -> void:
 func _on_order_completed(order: OrderCard) -> void:
 	var time_left: float = order.get_time_left()
 	var item_count: int = order.get_required_count()
+	var duration: float = order.get_duration()
+	var time_used_ratio: float = 1.0 - (time_left / duration)
+	total_time_used_ratio += clamp(time_used_ratio, 0.0, 1.0)
+	cured_patients += 1
+
 	var added_score: float = SCORE_BASE * time_left * float(item_count)
 	Global.score += added_score
 	_update_score_label()
@@ -228,6 +283,81 @@ func _remove_order(order: OrderCard) -> void:
 
 func _update_score_label() -> void:
 	score_label.text = "Score: %.1f" % Global.score
+
+
+func _update_wave_target_label() -> void:
+	wave_target_label.text = "Wave %d Target: %.1f" % [current_wave, current_wave_target_score]
+
+
+func _update_game_timer_label() -> void:
+	var clamped: int = max(int(ceil(game_time_left)), 0)
+	var mins: int = clamped / 60
+	var secs: int = clamped % 60
+	game_timer_label.text = "Time: %02d:%02d" % [mins, secs]
+
+
+func _show_wave_popup() -> void:
+	wave_popup_open = true
+	wave_popup.show_popup(current_wave, current_wave_target_score, game_time_left)
+
+
+# important place for changing buff values
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+func _on_wave_buff_chosen(buff_id: String) -> void:
+	match buff_id:
+		"more_time":
+			Global.modify_value("order_time_limit", "add", 7.0)
+		"faster_boxes":
+			Global.modify_value("box_respawn_time", "multiply", 0.85)
+		"faster_player":
+			Global.modify_value("player_move_speed", "add", 100)
+		"inventory_up":
+			Global.increase_inventory_size(1)
+		_:
+			push_warning("Unknown buff id: %s" % buff_id)
+
+	current_wave += 1
+	current_wave_target_score *= Global.wave_target_growth_multiplier
+	Global.order_length_min = min(Global.order_length_min + 1, 6)
+	Global.order_length_max = min(Global.order_length_max + 1, 6)
+	if Global.order_length_max < Global.order_length_min:
+		Global.order_length_max = Global.order_length_min
+
+	_update_wave_target_label()
+	wave_popup.hide_popup()
+	wave_popup_open = false
+	order_spawn_elapsed = 0.0
+	_try_spawn_order()
+
+
+func _end_game() -> void:
+	game_ended = true
+	wave_popup_open = false
+	wave_popup.hide_popup()
+
+	var average_time_used_ratio: float = 1.0
+	if cured_patients > 0:
+		average_time_used_ratio = total_time_used_ratio / float(cured_patients)
+
+	game_over_popup.show_results(cured_patients, average_time_used_ratio, Global.score)
 
 # ---------------------------
 # LOCK SYSTEM (UNCHANGED)

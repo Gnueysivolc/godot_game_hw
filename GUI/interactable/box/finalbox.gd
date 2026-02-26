@@ -21,29 +21,23 @@ signal item_obtained(item_type: ItemTypes.ItemType)
 @export var open_animation_name: String = "open_and_close"
 
 # -----------------------
-# CONFIG
-# -----------------------
-
-var respawn_time := 5.0
-
-# -----------------------
 # STATE
 # -----------------------
 
 var current_player: Player = null
-var player_in_range := false
-var is_ready := true
-var is_counting := false
-var is_animating := false
-var timer := 0.0
-var float_time := 0.0
+var player_in_range: bool = false
+var is_ready: bool = true
+var is_counting: bool = false
+var is_animating: bool = false
+var timer: float = 0.0
+var float_time: float = 0.0
 
 # -----------------------
 # VISUAL SETTINGS
 # -----------------------
 
-var normal_color := Color(1,1,1,1)
-var highlight_color := Color(1.3,1.3,1.3,1)
+var normal_color: Color = Color(1,1,1,1)
+var highlight_color: Color = Color(1.3,1.3,1.3,1)
 
 # -----------------------
 # READY
@@ -78,7 +72,8 @@ func _process(delta):
 	if is_counting:
 		timer += delta
 		
-		var percent := (timer / respawn_time) * 100.0
+		var respawn_time: float = max(Global.box_respawn_time, 0.1)
+		var percent: float = (timer / respawn_time) * 100.0
 		progress_bar.value = percent
 		
 		if timer >= respawn_time:

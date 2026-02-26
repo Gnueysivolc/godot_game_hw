@@ -20,6 +20,7 @@ func _ready() -> void:
 	anim.play("down_idle")
 
 func _physics_process(_delta: float) -> void:
+	speed = Global.player_move_speed
 	move_direction.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 	move_direction.y = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 	var motion: Vector2 = move_direction.normalized() * speed
@@ -60,7 +61,9 @@ func play_idle() -> void:
 # listen to keyboard events
 func _input(event):
 
-	if event.is_action_pressed("click"):
+	# Keep inventory debug upgrade off the generic mouse click action so
+	# UI button clicks don't accidentally add extra inventory slots.
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_U:
 		print("Upgrade inventory by:", Global.debug_inventory_upgrade_amount)
 		Global.increase_inventory_size(Global.debug_inventory_upgrade_amount)
 
