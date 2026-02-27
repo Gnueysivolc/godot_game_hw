@@ -11,12 +11,12 @@ func _ready() -> void:
 	visible = false
 
 
-func show_results(cured_patients: int, average_time_used_ratio: float, final_score: float) -> void:
-	var used_percent: float = clamp(average_time_used_ratio * 100.0, 0.0, 100.0)
-	var satisfaction_percent: float = clamp(100.0 - used_percent, 0.0, 100.0)
+func show_results(cured_patients: int, average_time_left_ratio: float, final_score: float) -> void:
+	var used_percent: float = clamp(average_time_left_ratio * 100.0, 0.0, 100.0)
+	var satisfaction_percent: float = clamp(used_percent, 0.0, 100.0)
 
 	title_label.text = "Game Over"
 	cured_label.text = "Patients Cured: %d" % cured_patients
-	satisfaction_label.text = "Patient Satisfaction: %.1f%% (time used: %.1f%%)" % [satisfaction_percent, used_percent]
+	satisfaction_label.text = "Patient Satisfaction: %.1f%% (average time left)" % [satisfaction_percent]
 	score_label.text = "Final Score: %.1f" % final_score
 	visible = true

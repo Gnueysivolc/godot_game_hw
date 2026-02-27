@@ -132,3 +132,123 @@ In `global.gd`:
 - Matching order selection is "first active matching order" in `active_orders` order.
 - `OrderCard.submit_item()` still has legacy fail behavior for wrong item, but manager only calls it when expected item matches.
 - No runtime playtest was executed in this environment; behavior is implemented from script/scene edits.
+
+## Latest Updates (Current Source of Truth)
+
+## Globalized Tunables + Modifier System
+
+File: `global.gd`
+
+- Most gameplay tuning is centralized here.
+- Includes:
+  - inventory sizing
+  - order generation/timing
+  - wave target/timer config
+  - player speed/debug upgrade values
+  - score value
+  - box respawn time (`box_respawn_time`)
+- Runtime modifier API added:
+  - `set_modifiers_enabled(enabled)`
+  - `reset_modifiable_values()`
+  - `modify_value(key, operation, amount)`
+  - `get_modifiable_keys()`
+- Operation support: add, minus/subtract, multiply, divide
+- Central min/max clamp table: `_MODIFIABLE_LIMITS`
+
+## Wave Popup + Game Over Popup
+
+Files:
+- `scenes/ui/wave_popup.tscn`
+- `scenes/ui/wave_popup.gd`
+- `scenes/ui/game_over_popup.tscn`
+- `scenes/ui/game_over_popup.gd`
+
+Wave popup now has 4 buffs:
+- `more_time`
+- `faster_boxes`
+- `faster_player`
+- `inventory_up` (increases unlocked inventory by exactly +1)
+
+Game over popup shows:
+- patients cured
+- patient satisfaction
+- final score
+
+## Inventory UI Wave Flow
+
+File: `scenes/environment/inventory_ui.gd`
+
+- HUD labels managed here:
+  - `ScoreLabel`
+  - `WaveTargetLabel`
+  - `GameTimerLabel`
+- Session flow:
+  - countdown from `Global.game_time_limit`
+  - when score reaches wave target -> show wave popup
+  - after buff selection -> next wave, target increases by multiplier
+  - order length min/max increase each wave (clamped)
+  - when timer ends -> game over popup
+
+## Score Formula
+
+File: `scenes/environment/inventory_ui.gd` (`_on_order_completed`)
+
+- `added_score = 100 * time_left * item_count`
+- Added to `Global.score`
+- Prints:
+  - formula breakdown
+  - score added
+  - total score
+
+## Satisfaction Formula
+
+Files:
+- `scenes/environment/inventory_ui.gd`
+- `scenes/ui/game_over_popup.gd`
+
+Per completed order:
+- `time_used_ratio = 1 - (time_left / duration)`
+
+At game end:
+- `average_time_used_ratio = total_time_used_ratio / cured_patients` (or 1.0 if none)
+- UI shows:
+  - `time used %`
+  - `satisfaction % = 100 - time used %`
+
+## Submit Stations
+
+File: `scenes/environment/clinic_map.gd`
+
+- Auto-connects all direct child nodes that have `submit_requested` signal.
+- This supports multiple submit boxes (`submit`, `submit2`, etc.) without manual wiring.
+
+## Loot Box Respawn Buff Hook
+
+File: `GUI/interactable/box/finalbox.gd`
+
+- Box respawn timing now reads `Global.box_respawn_time`.
+- This makes `faster_boxes` buff affect all loot boxes.
+
+## Player Input / Buff Interaction Fixes
+
+File: `scenes/entities/player/player.gd`
+
+- Movement speed now refreshes from `Global.player_move_speed` each physics frame.
+  - Speed buffs apply immediately in-run.
+- Debug inventory upgrade was moved off generic mouse click to `U` key
+  - prevents UI button clicks from accidentally giving extra inventory slots.
+
+## OrderCard Visual/Timer Enhancements
+
+File: `order/ordercard.gd`
+
+- Time bar uses real-time values (`max_value = duration`, `value = time_left`).
+- Time bar color thresholds:
+  - normal
+  - warning
+  - danger/red (<= 50%)
+- Face by order length logic:
+  - 1-2: normal
+  - 3-4: sad
+  - 5-6: very sad
+- Safe fallback if `normal.png`, `sad.png`, `very_sad.png` not present.

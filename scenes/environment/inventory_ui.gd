@@ -7,6 +7,7 @@ class_name InventoryUI
 @onready var score_label: Label = $ScoreLabel
 @onready var wave_target_label: Label = $WaveTargetLabel
 @onready var game_timer_label: Label = $GameTimerLabel
+@onready var hud_backdrop: Panel = $HudBackdrop
 @onready var wave_popup: WavePopup = $WavePopup
 @onready var game_over_popup: GameOverPopup = $GameOverPopup
 
@@ -25,6 +26,10 @@ const GREEN_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/green
 const PURPLE_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/purple_injection.png")
 const ORDER_FACE_ICON: Texture2D = preload("res://order/backcard.png")
 
+@export var score_particles_offset: Vector2 = Vector2.ZERO
+@export var hud_backdrop_color: Color = Color(0.0, 0.0, 0.0, 0.3)
+@export var hud_backdrop_border_color: Color = Color(0.0, 0.0, 0.0, 0.0)
+
 var items: Array = []          # stores slot nodes
 var lock_nodes: Array = []
 var active_orders: Array[OrderCard] = []
@@ -37,6 +42,9 @@ var wave_popup_open: bool = false
 var game_ended: bool = false
 var cured_patients: int = 0
 var total_time_used_ratio: float = 0.0
+var score_label_tween: Tween
+var score_color_tween: Tween
+var score_particles: GPUParticles2D
 
 
 func _ready():
@@ -52,6 +60,8 @@ func _ready():
 
 	if not wave_popup.buff_chosen.is_connected(_on_wave_buff_chosen):
 		wave_popup.buff_chosen.connect(_on_wave_buff_chosen)
+	_setup_score_feedback_fx()
+	_apply_hud_backdrop_style()
 
 	_update_score_label()
 	_update_wave_target_label()
@@ -248,13 +258,14 @@ func _on_order_completed(order: OrderCard) -> void:
 	var time_left: float = order.get_time_left()
 	var item_count: int = order.get_required_count()
 	var duration: float = order.get_duration()
-	var time_used_ratio: float = 1.0 - (time_left / duration)
-	total_time_used_ratio += clamp(time_used_ratio, 0.0, 1.0)
+	var time_left_ratio: float = (time_left / duration)
+	total_time_used_ratio += clamp(time_left_ratio, 0.0, 1.0)
 	cured_patients += 1
 
 	var added_score: float = SCORE_BASE * time_left * float(item_count)
 	Global.score += added_score
 	_update_score_label()
+	_play_score_gain_effect()
 
 	print("Order completed successfully.")
 	print(
@@ -283,6 +294,94 @@ func _remove_order(order: OrderCard) -> void:
 
 func _update_score_label() -> void:
 	score_label.text = "Score: %.1f" % Global.score
+	score_label.pivot_offset = score_label.size * 0.5
+
+
+func _apply_hud_backdrop_style() -> void:
+	var style: StyleBoxFlat = hud_backdrop.get_theme_stylebox("panel") as StyleBoxFlat
+	if style == null:
+		return
+	style.bg_color = hud_backdrop_color
+	style.border_color = hud_backdrop_border_color
+
+
+func _play_score_gain_effect() -> void:
+	if score_label_tween and score_label_tween.is_running():
+		score_label_tween.kill()
+	if score_color_tween and score_color_tween.is_running():
+		score_color_tween.kill()
+
+	score_label.pivot_offset = score_label.size * 0.5
+	score_label.scale = Vector2(1.0, 1.0)
+	score_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+	score_label_tween = create_tween()
+	score_label_tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# Expand/rebound from center in all directions.
+	score_label_tween.tween_property(score_label, "scale", Vector2(1.28, 1.28), 0.24)
+	score_label_tween.tween_property(score_label, "scale", Vector2(0.92, 0.92), 0.16)
+	score_label_tween.tween_property(score_label, "scale", Vector2(1.0, 1.0), 0.28)
+
+	# Color flash cycle while rebounding.
+	score_color_tween = create_tween()
+	score_color_tween.tween_property(score_label, "modulate", Color(1.0, 0.5, 0.2, 1.0), 0.12)
+	score_color_tween.tween_property(score_label, "modulate", Color(1.0, 0.95, 0.3, 1.0), 0.12)
+	score_color_tween.tween_property(score_label, "modulate", Color(0.3, 1.0, 0.8, 1.0), 0.14)
+	score_color_tween.tween_property(score_label, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.24)
+
+	_emit_score_particles()
+
+
+func _setup_score_feedback_fx() -> void:
+	score_particles = GPUParticles2D.new()
+	score_particles.name = "ScoreParticles"
+	score_particles.one_shot = true
+	score_particles.explosiveness = 1.0
+	score_particles.amount = 60
+	score_particles.lifetime = 0.8
+	score_particles.emitting = false
+	score_particles.z_index = 20
+	add_child(score_particles)
+
+	# Small white square texture for sparks.
+	var img: Image = Image.create(4, 4, false, Image.FORMAT_RGBA8)
+	img.fill(Color(1, 1, 1, 1))
+	var spark_tex: ImageTexture = ImageTexture.create_from_image(img)
+	score_particles.texture = spark_tex
+
+	var material: ParticleProcessMaterial = ParticleProcessMaterial.new()
+	material.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+	material.emission_sphere_radius = 10.0
+	material.spread = 180.0
+	material.gravity = Vector3(0.0, 120.0, 0.0)
+	material.initial_velocity_min = 120.0
+	material.initial_velocity_max = 220.0
+	material.scale_min = 1.5
+	material.scale_max = 2.6
+	material.angular_velocity_min = -12.0
+	material.angular_velocity_max = 12.0
+	material.damping_min = 15.0
+	material.damping_max = 25.0
+
+	var grad: Gradient = Gradient.new()
+	grad.add_point(0.0, Color(1.0, 0.45, 0.2, 1.0))
+	grad.add_point(0.4, Color(1.0, 1.0, 0.25, 1.0))
+	grad.add_point(0.75, Color(0.3, 1.0, 0.8, 0.9))
+	grad.add_point(1.0, Color(1.0, 1.0, 1.0, 0.0))
+	var grad_tex: GradientTexture1D = GradientTexture1D.new()
+	grad_tex.gradient = grad
+	material.color_ramp = grad_tex
+
+	score_particles.process_material = material
+
+
+func _emit_score_particles() -> void:
+	if score_particles == null:
+		return
+	score_particles.global_position = score_label.get_global_rect().get_center() + score_particles_offset
+	score_particles.restart()
+	score_particles.emitting = true
 
 
 func _update_wave_target_label() -> void:
@@ -353,11 +452,11 @@ func _end_game() -> void:
 	wave_popup_open = false
 	wave_popup.hide_popup()
 
-	var average_time_used_ratio: float = 1.0
+	var average_time_left_ratio: float = 1.0
 	if cured_patients > 0:
-		average_time_used_ratio = total_time_used_ratio / float(cured_patients)
+		average_time_left_ratio = total_time_used_ratio / float(cured_patients)
 
-	game_over_popup.show_results(cured_patients, average_time_used_ratio, Global.score)
+	game_over_popup.show_results(cured_patients, average_time_left_ratio, Global.score)
 
 # ---------------------------
 # LOCK SYSTEM (UNCHANGED)
