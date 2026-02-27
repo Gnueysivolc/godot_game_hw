@@ -9,7 +9,18 @@ extends Node2D
 # 🔥 ENUM VERSION
 signal item_obtained(item_type: ItemTypes.ItemType)
 
-@export var item_type: ItemTypes.ItemType   # choose RED_PILL etc in inspector
+@export_enum(
+	"NONE",
+	"RED_PILL",
+	"BLUE_PILL",
+	"GREEN_PILL",
+	"PURPLE_PILL",
+	"RED_INJECTION",
+	"BLUE_INJECTION",
+	"GREEN_INJECTION",
+	"PURPLE_INJECTION",
+	"CLOVIS"
+) var item_type: int = int(ItemTypes.ItemType.RED_PILL)
 
 # Visual
 @export var box_sprite: Texture2D
@@ -19,6 +30,7 @@ signal item_obtained(item_type: ItemTypes.ItemType)
 
 # Animation
 @export var open_animation_name: String = "open_and_close"
+@export var no_cooldown: bool = false
 
 # -----------------------
 # STATE
@@ -70,6 +82,13 @@ func _process(delta):
 		exclamation.position.y = -20 + sin(float_time * 4.0) * 2.0
 
 	if is_counting:
+		if no_cooldown:
+			is_counting = false
+			is_ready = true
+			progress_bar.visible = false
+			exclamation.visible = true
+			return
+
 		timer += delta
 		
 		var respawn_time: float = max(Global.box_respawn_time, 0.1)
@@ -134,6 +153,15 @@ func _on_player_interact():
 
 	# 🔥 EMIT ENUM, NOT TEXTURE
 	emit_signal("item_obtained", item_type)
+
+	if no_cooldown:
+		is_ready = true
+		is_counting = false
+		timer = 0.0
+		progress_bar.value = 0
+		progress_bar.visible = false
+		exclamation.visible = true
+		return
 
 	is_ready = false
 	is_counting = true

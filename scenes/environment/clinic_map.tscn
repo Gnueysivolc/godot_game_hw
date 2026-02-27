@@ -996,7 +996,7 @@ tile_set = SubResource("TileSet_wvdgp")
 [node name="collisionfloor" type="TileMapLayer" parent="." unique_id=1926263023]
 z_index = -1
 position = Vector2(0, -161.8345)
-tile_map_data = PackedByteArray("AAD+//3/AAAAAAAAAAD///3/AAAAAAAAAAAAAP3/AAAAAAAAAAABAP3/AAAAAAAAAAACAP3/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD+//3/AAAAAAAAAAD///3/AAAAAAAAAAAAAP3/AAAAAAAAAAABAP3/AAAAAAAAAAACAP3/AAAAAAAAAADv/wIAAAAAAAAAAADv/wMAAAAAAAAAAADv/wQAAAAAAAAAAADv/wUAAAAAAAAAAADv/wYAAAAAAAAAAADv/wEAAAAAAAAAAADv/wAAAAAAAAAAAADv////AAAAAAAAAADv//7/AAAAAAAAAADv//3/AAAAAAAAAAARAP7/AAAAAAAAAAARAP//AAAAAAAAAAARAAAAAAAAAAAAAAARAAEAAAAAAAAAAAARAAIAAAAAAAAAAAARAAMAAAAAAAAAAAARAAQAAAAAAAAAAAARAAUAAAAAAAAAAAARAAYAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_kyfsy")
 
 [node name="wall_top" type="TileMapLayer" parent="." unique_id=254033329]
@@ -1027,9 +1027,16 @@ tile_set = SubResource("TileSet_wgf7m")
 
 [node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-323.11243, -65.55322)
-item_type = 1
 box_sprite = ExtResource("13_c4gu0")
 open_animation_name = "red_box_animation"
+
+[node name="clobox" parent="." unique_id=273495291 groups=["loot_box"] instance=ExtResource("10_wri35")]
+z_index = -1
+position = Vector2(-991.7757, -65.55322)
+item_type = 9
+box_sprite = ExtResource("13_c4gu0")
+open_animation_name = "red_box_animation"
+no_cooldown = true
 
 [node name="bluebox" parent="." unique_id=1043242724 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-323.11243, 65.55321)

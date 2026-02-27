@@ -21,6 +21,12 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	speed = Global.player_move_speed
+	if not DisplayServer.window_is_focused():
+		move_direction = Vector2.ZERO
+		set_velocity(Vector2.ZERO)
+		play_idle()
+		return
+
 	move_direction.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 	move_direction.y = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 	var motion: Vector2 = move_direction.normalized() * speed
@@ -55,6 +61,12 @@ func play_idle() -> void:
 		anim.play("left_idle")
 	elif facing_direction.x > 0:
 		anim.play("right_idle")
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		move_direction = Vector2.ZERO
+		set_velocity(Vector2.ZERO)
 		
 		
 		

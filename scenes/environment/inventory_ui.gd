@@ -9,8 +9,11 @@ class_name InventoryUI
 @onready var game_timer_label: Label = $GameTimerLabel
 @onready var hearts_container: HBoxContainer = $HeartsContainer
 @onready var hud_backdrop: Panel = $HudBackdrop
+@onready var damage_flash_overlay: ColorRect = $DamageFlashOverlay
 @onready var wave_popup: WavePopup = $WavePopup
 @onready var game_over_popup: GameOverPopup = $GameOverPopup
+@onready var clovis_popup_panel: Panel = $ClovisPopup
+@onready var clovis_popup_label: Label = $ClovisPopup/Label
 
 var slot_scene = preload("res://GUI/inventory/invetory_slot.tscn")
 var lock_scene = preload("res://GUI/inventory/lock.tscn")
@@ -25,12 +28,19 @@ const RED_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/red_inj
 const BLUE_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/blue_injection.png")
 const GREEN_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/green_injection.png")
 const PURPLE_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/purple_injection.png")
+const CLOVIS_ICON: Texture2D = preload("res://GUI/interactable/box/exclamation.png")
 const ORDER_FACE_ICON: Texture2D = preload("res://order/backcard.png")
 const HEART_ICON: Texture2D = preload("res://GUI/heart.png")
+const HIT_HURT_SFX: AudioStream = preload("res://GUI/hitHurt.wav")
+const ORDER_FINISH_SFX: AudioStream = preload("res://GUI/order_finish.wav")
+const CLOVIS_STREAK_TARGET: int = 20
 
 @export var score_particles_offset: Vector2 = Vector2.ZERO
 @export var hud_backdrop_color: Color = Color(0.0, 0.0, 0.0, 0.3)
 @export var hud_backdrop_border_color: Color = Color(0.0, 0.0, 0.0, 0.0)
+@export var damage_flash_color: Color = Color(1.0, 0.0, 0.0, 0.45)
+@export var damage_flash_in_duration: float = 0.05
+@export var damage_flash_out_duration: float = 0.16
 
 var items: Array = []          # stores slot nodes
 var lock_nodes: Array = []
@@ -47,6 +57,11 @@ var total_time_used_ratio: float = 0.0
 var score_label_tween: Tween
 var score_color_tween: Tween
 var score_particles: GPUParticles2D
+var hurt_sfx_player: AudioStreamPlayer
+var order_finish_sfx_player: AudioStreamPlayer
+var clovis_submit_streak: int = 0
+var clovis_popup_tween: Tween
+var damage_flash_tween: Tween
 
 
 func _ready():
@@ -59,12 +74,18 @@ func _ready():
 	game_ended = false
 	cured_patients = 0
 	total_time_used_ratio = 0.0
+	clovis_submit_streak = 0
+	clovis_popup_panel.visible = false
+	clovis_popup_label.text = "Hi I'm Clovis"
+	damage_flash_overlay.color = Color(damage_flash_color.r, damage_flash_color.g, damage_flash_color.b, 0.0)
 
 	if not wave_popup.buff_chosen.is_connected(_on_wave_buff_chosen):
 		wave_popup.buff_chosen.connect(_on_wave_buff_chosen)
 	if not Global.lives_changed.is_connected(_on_lives_changed):
 		Global.lives_changed.connect(_on_lives_changed)
 	_setup_score_feedback_fx()
+	_setup_hurt_sfx()
+	_setup_order_finish_sfx()
 	_apply_hud_backdrop_style()
 
 	Global.reset_lives()
@@ -148,6 +169,7 @@ func use_item():
 	if success:
 		slot.queue_free()
 		items.remove_at(0)
+		_track_clovis_submission(item_type)
 
 
 func submit_top_item_to_order(order_card: OrderCard) -> bool:
@@ -161,8 +183,10 @@ func submit_top_item_to_order(order_card: OrderCard) -> bool:
 		success = order_card.submit_item(slot.item_type)
 
 	# Submit station should consume one item per interaction.
+	var submitted_item_type: ItemTypes.ItemType = slot.item_type
 	slot.queue_free()
 	items.remove_at(0)
+	_track_clovis_submission(submitted_item_type)
 
 	return success
 
@@ -193,6 +217,7 @@ func submit_top_item_to_orders() -> bool:
 	# Submit station should consume one item per interaction.
 	slot.queue_free()
 	items.remove_at(0)
+	_track_clovis_submission(item_type)
 
 	return success
 
@@ -216,7 +241,13 @@ func _try_spawn_order() -> void:
 	if active_orders.size() >= Global.max_active_orders:
 		return
 
-	if Global.allowed_order_items.is_empty():
+	var order_pool: Array[ItemTypes.ItemType] = []
+	for item in Global.allowed_order_items:
+		if item == ItemTypes.ItemType.CLOVIS:
+			continue
+		order_pool.append(item)
+
+	if order_pool.is_empty():
 		return
 
 	var count: int = randi_range(Global.order_length_min, Global.order_length_max)
@@ -225,7 +256,7 @@ func _try_spawn_order() -> void:
 
 	var sequence: Array[ItemTypes.ItemType] = []
 	for i in range(count):
-		sequence.append(Global.allowed_order_items.pick_random())
+		sequence.append(order_pool.pick_random())
 
 	_create_order(sequence, Global.order_time_limit)
 
@@ -255,6 +286,7 @@ func _configure_order_visuals(order: OrderCard) -> void:
 	order.blue_injection_icon = BLUE_INJECTION_ICON
 	order.green_injection_icon = GREEN_INJECTION_ICON
 	order.purple_injection_icon = PURPLE_INJECTION_ICON
+	order.clovis_icon = CLOVIS_ICON
 
 	order.face_normal = ORDER_FACE_ICON
 	order.face_sick = ORDER_FACE_ICON
@@ -273,6 +305,7 @@ func _on_order_completed(order: OrderCard) -> void:
 	Global.score += added_score
 	_update_score_label()
 	_play_score_gain_effect()
+	_play_order_finish_sfx()
 
 	print("Order completed successfully.")
 	print(
@@ -299,6 +332,36 @@ func _remove_order(order: OrderCard) -> void:
 
 	if is_instance_valid(order):
 		order.queue_free()
+
+
+func _track_clovis_submission(item_type: ItemTypes.ItemType) -> void:
+	if item_type == ItemTypes.ItemType.CLOVIS:
+		clovis_submit_streak += 1
+		if clovis_submit_streak >= CLOVIS_STREAK_TARGET:
+			clovis_submit_streak = 0
+			_show_clovis_popup()
+		return
+
+	clovis_submit_streak = 0
+
+
+func _show_clovis_popup() -> void:
+	if clovis_popup_tween and clovis_popup_tween.is_running():
+		clovis_popup_tween.kill()
+
+	clovis_popup_panel.visible = true
+	clovis_popup_panel.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	clovis_popup_label.text = "Hi I'm Clovis"
+
+	clovis_popup_tween = create_tween()
+	clovis_popup_tween.tween_property(clovis_popup_panel, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.14)
+	clovis_popup_tween.tween_interval(1.8)
+	clovis_popup_tween.tween_property(clovis_popup_panel, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.2)
+	clovis_popup_tween.tween_callback(Callable(self, "_hide_clovis_popup"))
+
+
+func _hide_clovis_popup() -> void:
+	clovis_popup_panel.visible = false
 
 
 func _update_score_label() -> void:
@@ -383,6 +446,53 @@ func _setup_score_feedback_fx() -> void:
 	material.color_ramp = grad_tex
 
 	score_particles.process_material = material
+
+
+func _setup_hurt_sfx() -> void:
+	hurt_sfx_player = AudioStreamPlayer.new()
+	hurt_sfx_player.name = "HurtSfxPlayer"
+	hurt_sfx_player.stream = HIT_HURT_SFX
+	add_child(hurt_sfx_player)
+
+
+func _play_hurt_sfx() -> void:
+	if hurt_sfx_player == null or hurt_sfx_player.stream == null:
+		return
+	if hurt_sfx_player.playing:
+		hurt_sfx_player.stop()
+	hurt_sfx_player.play()
+
+
+func _setup_order_finish_sfx() -> void:
+	order_finish_sfx_player = AudioStreamPlayer.new()
+	order_finish_sfx_player.name = "OrderFinishSfxPlayer"
+	order_finish_sfx_player.stream = ORDER_FINISH_SFX
+	add_child(order_finish_sfx_player)
+
+
+func _play_order_finish_sfx() -> void:
+	if order_finish_sfx_player == null or order_finish_sfx_player.stream == null:
+		return
+	if order_finish_sfx_player.playing:
+		order_finish_sfx_player.stop()
+	order_finish_sfx_player.play()
+
+
+func _play_damage_flash() -> void:
+	if damage_flash_overlay == null:
+		return
+
+	if damage_flash_tween and damage_flash_tween.is_running():
+		damage_flash_tween.kill()
+
+	var start_color: Color = Color(damage_flash_color.r, damage_flash_color.g, damage_flash_color.b, 0.0)
+	var peak_color: Color = damage_flash_color
+	var end_color: Color = Color(damage_flash_color.r, damage_flash_color.g, damage_flash_color.b, 0.0)
+
+	damage_flash_overlay.color = start_color
+	damage_flash_tween = create_tween()
+	damage_flash_tween.tween_property(damage_flash_overlay, "color", peak_color, max(damage_flash_in_duration, 0.01))
+	damage_flash_tween.tween_property(damage_flash_overlay, "color", end_color, max(damage_flash_out_duration, 0.01))
 
 
 func _emit_score_particles() -> void:
@@ -491,6 +601,8 @@ func _update_lives_display() -> void:
 func _lose_life_and_check_end() -> void:
 	if game_ended:
 		return
+	_play_damage_flash()
+	_play_hurt_sfx()
 	Global.lose_life(1)
 	print("Life lost. Remaining lives:", Global.current_lives)
 	if Global.current_lives <= 0:

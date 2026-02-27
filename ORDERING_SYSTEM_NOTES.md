@@ -342,6 +342,25 @@ Behavior:
 - Current binding: right mouse or `T` (based on input map).
 - Pause handling lives in autoload `Global`, with `process_mode = ALWAYS`, so pressing `test` again works while paused.
 
+## Web Input Stability Note (WASD)
+
+Files:
+- `global.gd`
+- `scenes/entities/player/player.gd`
+
+Changes:
+- Reverted direct key-state fallback in player movement (it caused sticky movement on web in some cases).
+- Added runtime safeguard in `Global` to ensure WASD key events exist on movement actions:
+  - `up -> W`
+  - `down -> S`
+  - `left -> A`
+  - `right -> D`
+- Movement now uses action-based checks only (`Input.is_action_pressed(...)`) for stability.
+- Additional web-stability guards:
+  - `test` pause input is enforced as keyboard-only (`T`), with mouse events removed at runtime.
+  - Pause toggle ignores key echo/repeat.
+  - Player movement is zeroed on window focus loss to prevent stuck-direction movement.
+
 ## Order Expires By Pixels Left
 
 File:
@@ -355,6 +374,71 @@ Behavior:
 - Timeout happens when:
   - `pixels_left <= expire_at_pixels_left`
 - `expire_at_pixels_left` is exported on `OrderCard`, so you can tune it in Inspector.
+
+## Life Loss SFX
+
+File:
+- `scenes/environment/inventory_ui.gd`
+
+Behavior:
+- When a life is deducted (`_lose_life_and_check_end`), `res://GUI/hitHurt.wav` is played.
+- Implemented using a runtime `AudioStreamPlayer` (`HurtSfxPlayer`).
+- On life loss, a full-screen red flash is also played using `DamageFlashOverlay` + tween.
+  - configured via exports in `inventory_ui.gd`:
+    - `damage_flash_color`
+    - `damage_flash_in_duration`
+    - `damage_flash_out_duration`
+
+## Order Complete SFX
+
+File:
+- `scenes/environment/inventory_ui.gd`
+
+Behavior:
+- When an order is completed (`_on_order_completed`), `res://GUI/order_finish.wav` is played.
+- Implemented using a runtime `AudioStreamPlayer` (`OrderFinishSfxPlayer`).
+
+## CLOVIS Item + 20-Submit Popup
+
+Files:
+- `order/item_type.gd`
+- `GUI/inventory/inventory_slot.gd`
+- `GUI/inventory/invetory_slot.tscn`
+- `order/ordercard.gd`
+- `scenes/environment/inventory_ui.gd`
+- `scenes/environment/inventory_ui.tscn`
+- `global.gd`
+
+Implemented:
+- Added new enum item type:
+  - `ItemTypes.ItemType.CLOVIS`
+- Updated box inspector export in `finalbox.gd` to explicit `@export_enum(...)`
+  so CLOVIS is always visible/selectable in Inspector.
+- Added CLOVIS icon handling in inventory slot and order card.
+- Current CLOVIS icon uses:
+  - `res://GUI/interactable/box/exclamation.png`
+  - (acts as placeholder until a dedicated clovis texture is added)
+- CLOVIS is excluded from real order generation (easter egg only).
+  - removed from default `Global.allowed_order_items`
+  - runtime filter in `_try_spawn_order()` ignores CLOVIS even if it is added later
+- Added continuous-submit tracker in `inventory_ui.gd`:
+  - if player submits CLOVIS item repeatedly, streak increments
+  - any non-CLOVIS submit resets streak
+  - at streak `20`, popup appears with text:
+    - `Hi I'm Clovis`
+- Added popup UI panel node `ClovisPopup` in `inventory_ui.tscn`.
+
+## Clobox No Cooldown
+
+Files:
+- `GUI/interactable/box/finalbox.gd`
+- `scenes/environment/clinic_map.tscn`
+
+Behavior:
+- Added per-box export flag in `finalbox.gd`:
+  - `no_cooldown: bool`
+- When `no_cooldown = true`, the box can be interacted repeatedly without respawn countdown/progress.
+- Set only `clobox` to `no_cooldown = true` in `clinic_map.tscn`.
 
 ## Win Condition + Colorful Win Screen
 

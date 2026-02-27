@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cl754fco1roqd" path="res://GUI/inventory/items/red_injection.png" id="6_ghdvb"]
 [ext_resource type="Texture2D" uid="uid://bpbvfj1gi0itc" path="res://GUI/inventory/items/purple_injection.png" id="8_75dqu"]
 [ext_resource type="Texture2D" uid="uid://1m45ebcu5tb2" path="res://GUI/inventory/items/green_injection.png" id="9_xcjwd"]
+[ext_resource type="Texture2D" uid="uid://dbjxkyghp421c" path="res://GUI/interactable/box/exclamation.png" id="10_clvsi"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_123k0"]
 
@@ -26,6 +27,7 @@ red_injection = ExtResource("6_ghdvb")
 blue_injection = ExtResource("3_x30ec")
 purple_injection = ExtResource("8_75dqu")
 green_injection = ExtResource("9_xcjwd")
+clovis_icon = ExtResource("10_clvsi")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=260037495]
 layout_mode = 0

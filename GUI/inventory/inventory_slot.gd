@@ -12,6 +12,7 @@ var icon: TextureRect
 @export var blue_injection: Texture2D
 @export var purple_injection: Texture2D
 @export var green_injection: Texture2D
+@export var clovis_icon: Texture2D
 
 
 func _ready():
@@ -43,5 +44,7 @@ func set_item(type: ItemTypes.ItemType):
 			icon.texture = blue_injection
 		ItemTypes.ItemType.PURPLE_INJECTION:
 			icon.texture = purple_injection
+		ItemTypes.ItemType.CLOVIS:
+			icon.texture = clovis_icon
 		_:
 			icon.texture = null

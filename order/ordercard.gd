@@ -30,6 +30,7 @@ func _ready():
 @export var blue_injection_icon: Texture2D
 @export var green_injection_icon: Texture2D
 @export var purple_injection_icon: Texture2D
+@export var clovis_icon: Texture2D
 
 @export var face_normal: Texture2D
 @export var face_sick: Texture2D
@@ -244,6 +245,8 @@ func _get_icon(type: ItemTypes.ItemType) -> Texture2D:
 			return green_injection_icon
 		ItemTypes.ItemType.PURPLE_INJECTION:
 			return purple_injection_icon
+		ItemTypes.ItemType.CLOVIS:
+			return clovis_icon
 		_:
 			return null
 

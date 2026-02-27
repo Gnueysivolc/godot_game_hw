@@ -136,10 +136,17 @@ const _DIFFICULTY_PRESETS := {
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process_input(true)
+	_ensure_keyboard_movement_bindings()
+	_ensure_test_pause_binding()
 	reset_modifiable_values()
 
 
 func _input(event: InputEvent) -> void:
+	if not (event is InputEventKey):
+		return
+	var key_event: InputEventKey = event as InputEventKey
+	if not key_event.pressed or key_event.echo:
+		return
 	if not event.is_action_pressed("test"):
 		return
 	if not _is_gameplay_scene_active():
@@ -164,6 +171,42 @@ func _is_gameplay_scene_active() -> bool:
 	if scene == null:
 		return false
 	return scene.scene_file_path == "res://scenes/environment/clinic_map.tscn"
+
+
+func _ensure_keyboard_movement_bindings() -> void:
+	_ensure_action_has_key("up", KEY_W)
+	_ensure_action_has_key("down", KEY_S)
+	_ensure_action_has_key("left", KEY_A)
+	_ensure_action_has_key("right", KEY_D)
+
+
+func _ensure_action_has_key(action_name: String, key: Key) -> void:
+	if not InputMap.has_action(action_name):
+		InputMap.add_action(action_name)
+
+	var events: Array[InputEvent] = InputMap.action_get_events(action_name)
+	for event in events:
+		if event is InputEventKey:
+			var key_event: InputEventKey = event as InputEventKey
+			if key_event.keycode == key or key_event.physical_keycode == key:
+				return
+
+	var add_event: InputEventKey = InputEventKey.new()
+	add_event.keycode = key
+	add_event.physical_keycode = key
+	InputMap.action_add_event(action_name, add_event)
+
+
+func _ensure_test_pause_binding() -> void:
+	if not InputMap.has_action("test"):
+		InputMap.add_action("test")
+
+	var events: Array[InputEvent] = InputMap.action_get_events("test")
+	for event in events:
+		if event is InputEventMouseButton:
+			InputMap.action_erase_event("test", event)
+
+	_ensure_action_has_key("test", KEY_T)
 
 
 func increase_inventory_size(amount: int):

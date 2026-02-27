@@ -4,8 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://dlruylqhl2ot7" path="res://order/progress_bar_under_new.png" id="3_qsljo"]
 [ext_resource type="Texture2D" uid="uid://dy1wckgjk7ros" path="res://order/progress_bar_progress_new.png" id="4_et45m"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qk4uw"]
+
 [node name="Ordercard" type="Panel" unique_id=2124218482]
 custom_minimum_size = Vector2(230, 120)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_qk4uw")
 script = ExtResource("1_iaa50")
 expire_at_pixels_left = 40.0
 
