@@ -440,6 +440,19 @@ Behavior:
 - When `no_cooldown = true`, the box can be interacted repeatedly without respawn countdown/progress.
 - Set only `clobox` to `no_cooldown = true` in `clinic_map.tscn`.
 
+## Gameplay BGM
+
+Files:
+- `global.gd`
+- `scenes/ui/start_screen.gd`
+
+Behavior:
+- Added persistent BGM in autoload `Global`:
+  - source: `res://scenes/environment/Sakura-Girl-Cat-Walk-chosic.mp3`
+  - loops continuously (`AudioStreamMP3.loop = true`)
+- BGM starts when player chooses difficulty on start screen (`Global.start_game_bgm()`).
+- Because player lives in autoload, music continues across scene changes through the game.
+
 ## Win Condition + Colorful Win Screen
 
 Files:

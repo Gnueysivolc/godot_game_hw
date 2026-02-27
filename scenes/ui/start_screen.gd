@@ -31,4 +31,5 @@ func _start_game_with_difficulty(difficulty_id: String) -> void:
 	if not ok:
 		push_warning("Could not apply difficulty: %s" % difficulty_id)
 		return
+	Global.start_game_bgm()
 	get_tree().change_scene_to_file("res://scenes/environment/clinic_map.tscn")

@@ -467,6 +467,7 @@ func _setup_order_finish_sfx() -> void:
 	order_finish_sfx_player = AudioStreamPlayer.new()
 	order_finish_sfx_player.name = "OrderFinishSfxPlayer"
 	order_finish_sfx_player.stream = ORDER_FINISH_SFX
+	order_finish_sfx_player.volume_db = 10
 	add_child(order_finish_sfx_player)
 
 

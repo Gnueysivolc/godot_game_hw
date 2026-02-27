@@ -51,6 +51,7 @@ offset_left = 40.0
 offset_top = 32.0
 offset_right = 780.0
 offset_bottom = 588.0
+scale = Vector2(1.0195047, 0.96986806)
 theme_override_constants/separation = 20
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=845822047]
@@ -67,9 +68,14 @@ horizontal_alignment = 1
 
 [node name="HintLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=1440107239]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "Easy: longer order time | Medium: less order time + 3 lives | Hard: 1 slot + less order time + 1 life"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+text = "wasd or arrow keys are for movement and enter / space is for interaction, the goal is to obtain item from the box and submit to the patient (at the arrow box).
+
+The game is for a home work and u are considered winning if ur score > 100000
+
+there will be buffs after u finished a wave but difficulty will increase
+
+**the message of the game is to balance the patient satisfaction and the score**"
 autowrap_mode = 3
 
 [node name="Buttons" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1844369395]

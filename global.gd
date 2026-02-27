@@ -56,6 +56,14 @@ var score: float = 0.0
 var win_score_threshold: float = 100000.0
 
 # ------------------------
+# AUDIO
+# ------------------------
+
+const GAME_BGM_STREAM: AudioStream = preload("res://scenes/environment/Sakura-Girl-Cat-Walk-chosic.mp3")
+var game_bgm_volume_db: float = -8.0
+var game_bgm_player: AudioStreamPlayer
+
+# ------------------------
 # LIFE
 # ------------------------
 
@@ -138,6 +146,7 @@ func _ready() -> void:
 	set_process_input(true)
 	_ensure_keyboard_movement_bindings()
 	_ensure_test_pause_binding()
+	_setup_game_bgm()
 	reset_modifiable_values()
 
 
@@ -207,6 +216,28 @@ func _ensure_test_pause_binding() -> void:
 			InputMap.action_erase_event("test", event)
 
 	_ensure_action_has_key("test", KEY_T)
+
+
+func _setup_game_bgm() -> void:
+	game_bgm_player = AudioStreamPlayer.new()
+	game_bgm_player.name = "GameBgmPlayer"
+	game_bgm_player.volume_db = game_bgm_volume_db
+
+	var stream_copy: AudioStream = GAME_BGM_STREAM.duplicate()
+	if stream_copy is AudioStreamMP3:
+		var mp3_stream: AudioStreamMP3 = stream_copy as AudioStreamMP3
+		mp3_stream.loop = true
+
+	game_bgm_player.stream = stream_copy
+	add_child(game_bgm_player)
+
+
+func start_game_bgm() -> void:
+	if game_bgm_player == null:
+		_setup_game_bgm()
+	if game_bgm_player.playing:
+		return
+	game_bgm_player.play()
 
 
 func increase_inventory_size(amount: int):
