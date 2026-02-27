@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://bpw2liecv6flh"]
 
-[ext_resource type="Script" path="res://scenes/ui/wave_popup.gd" id="1"]
+[ext_resource type="Script" uid="uid://cmllh1chdfmru" path="res://scenes/ui/wave_popup.gd" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.09, 0.1, 0.13, 0.95)
@@ -8,63 +8,72 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.8, 0.8, 0.8, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="WavePopup" type="CanvasLayer"]
+[node name="WavePopup" type="CanvasLayer" unique_id=93296006]
 script = ExtResource("1")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=94952100]
 offset_left = 620.0
 offset_top = 180.0
 offset_right = 1300.0
 offset_bottom = 860.0
 theme_override_styles/panel = SubResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=672987594]
+layout_mode = 0
 offset_left = 30.0
 offset_top = 24.0
 offset_right = 650.0
 offset_bottom = 656.0
 theme_override_constants/separation = 14
 
-[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer" unique_id=665192446]
+layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Wave Cleared"
 horizontal_alignment = 1
 
-[node name="TargetLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="TargetLabel" type="Label" parent="Panel/VBoxContainer" unique_id=112230517]
+layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Target Score: 0"
 horizontal_alignment = 1
 
-[node name="TimerLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="TimerLabel" type="Label" parent="Panel/VBoxContainer" unique_id=24966649]
+layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Time Left: 00:00"
 horizontal_alignment = 1
 
-[node name="Buttons" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="Buttons" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=1633513632]
+layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TimeBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="TimeBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=851158493]
 custom_minimum_size = Vector2(0, 52)
-text = "Buff: Increase Order Time"
+layout_mode = 2
+text = "Increase Order Lasting Time (+7s)"
 
-[node name="BoxBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="BoxBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=1536651793]
 custom_minimum_size = Vector2(0, 52)
-text = "Buff: Decrease Box Loading Time"
+layout_mode = 2
+text = "Decrease Box Loading Time (*0.85)"
 
-[node name="SpeedBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="SpeedBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=630810842]
 custom_minimum_size = Vector2(0, 52)
-text = "Buff: Increase Movement Speed"
+layout_mode = 2
+text = "Increase Movement Speed (+100)"
 
-[node name="InventoryBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="InventoryBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=549228349]
 custom_minimum_size = Vector2(0, 52)
-text = "Buff: Increase Inventory Size"
+layout_mode = 2
+text = "Increase Inventory Size (+1) (max: 6)"
 
-[node name="LifeBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="LifeBuffButton" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=1547222934]
 custom_minimum_size = Vector2(0, 52)
-text = "Buff: Add +1 Life"
+layout_mode = 2
+text = "+1 Life (won''t work when full = 5)"
