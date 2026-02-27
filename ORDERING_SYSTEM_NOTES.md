@@ -106,7 +106,6 @@
 
 - `clinic_map.gd` now:
   - Connects submit station signal to inventory order submit.
-  - Uses `inventory_ui.spawn_debug_order(...)` on `test` input.
 - Removed static hardcoded `Ordercard` instance from `clinic_map.tscn`.
 
 ## 8) Safety adjustments
@@ -295,3 +294,85 @@ Exposed in Inspector on `inventoryUI` node:
 
 - `Global.reset_modifiable_values()` runs on startup and applies values from `_MODIFIABLE_DEFAULTS`.
 - Runtime behavior follows `_MODIFIABLE_DEFAULTS`, so keep this dictionary aligned with your intended base tuning.
+
+## Start Screen + Difficulty Presets
+
+Files:
+- `scenes/ui/start_screen.tscn`
+- `scenes/ui/start_screen.gd`
+- `global.gd`
+- `project.godot`
+
+Implemented:
+- New startup menu scene with 3 buttons:
+  - Start Easy
+  - Start Medium
+  - Start Hard
+- Project main scene now points to `res://scenes/ui/start_screen.tscn`.
+- No duplicated clinic maps are used. All difficulties load the same:
+  - `res://scenes/environment/clinic_map.tscn`
+- Added `Global.apply_difficulty_preset(difficulty_id)`:
+  - resets to modifiable defaults
+  - applies preset values
+  - clamps via safety rules
+  - resets lives and emits inventory update
+
+Current presets:
+- easy:
+  - `order_time_limit = 45`
+  - `max_lives = 5`
+  - `unlocked_inventory_slots = 3`
+- medium:
+  - `order_time_limit = 25`
+  - `max_lives = 3`
+  - `unlocked_inventory_slots = 2`
+- hard:
+  - `order_time_limit = 15`
+  - `max_lives = 1`
+  - `unlocked_inventory_slots = 1`
+
+## Pause Input During Gameplay
+
+File:
+- `global.gd`
+- `project.godot`
+
+Behavior:
+- Press input action `test` during gameplay to toggle pause/resume quickly.
+- Current binding: right mouse or `T` (based on input map).
+- Pause handling lives in autoload `Global`, with `process_mode = ALWAYS`, so pressing `test` again works while paused.
+
+## Order Expires By Pixels Left
+
+File:
+- `order/ordercard.gd`
+
+Behavior:
+- Order timeout now triggers by remaining progress-bar pixels, not by fixed seconds.
+- Formula used each frame:
+  - `pixels_left = (time_left / duration) * total_bar_pixels`
+- `total_bar_pixels` is read from `time_bar.get_global_rect().size.x`.
+- Timeout happens when:
+  - `pixels_left <= expire_at_pixels_left`
+- `expire_at_pixels_left` is exported on `OrderCard`, so you can tune it in Inspector.
+
+## Win Condition + Colorful Win Screen
+
+Files:
+- `global.gd`
+- `scenes/ui/game_over_popup.gd`
+
+Behavior:
+- Win condition is checked at end game using final score:
+  - `final_score >= Global.win_score_threshold`
+- Default threshold:
+  - `Global.win_score_threshold = 100000`
+- Easy difficulty override:
+  - `Global.win_score_threshold = 60000`
+- On win:
+  - prints `YOU WIN!!!` in console
+  - game-over panel title changes to `YOU WIN!!!`
+  - panel background loops through colorful animated colors
+- On non-win:
+  - normal `Game Over` title
+  - panel colors reset to default dark style

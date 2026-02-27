@@ -40,6 +40,7 @@ func _ready():
 @export var time_color_normal: Color = Color(0.2, 0.9, 0.35, 1.0)
 @export var time_color_warning: Color = Color(1.0, 0.8, 0.2, 1.0)
 @export var time_color_danger: Color = Color(1.0, 0.2, 0.2, 1.0)
+@export var expire_at_pixels_left: float = 0.0
 
 # -----------------------
 # ORDER DATA
@@ -119,7 +120,7 @@ func _process(delta):
 	time_bar.value = max(time_left, 0.0)
 	_update_time_bar_color()
 
-	if time_left <= 0:
+	if _get_pixels_left() <= max(expire_at_pixels_left, 0.0):
 		running = false
 		resolved = true
 		face.texture = face_sad
@@ -215,6 +216,14 @@ func _update_time_bar_color() -> void:
 		time_bar.tint_progress = time_color_warning
 	else:
 		time_bar.tint_progress = time_color_normal
+
+
+func _get_pixels_left() -> float:
+	var ratio: float = 0.0
+	if duration > 0.0:
+		ratio = clamp(time_left / duration, 0.0, 1.0)
+	var total_bar_pixels: float = time_bar.get_global_rect().size.x
+	return ratio * total_bar_pixels
 
 
 func _get_icon(type: ItemTypes.ItemType) -> Texture2D:

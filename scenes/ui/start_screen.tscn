@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://b4nxasekou87i"]
+
+[ext_resource type="Script" uid="uid://bjx0c7vg58gns" path="res://scenes/ui/start_screen.gd" id="1_start"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.08, 0.11, 0.16, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.85, 0.9, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="StartScreen" type="Control" unique_id=776396188]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_start")
+
+[node name="Background" type="ColorRect" parent="." unique_id=988514755]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.07, 0.1, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1562095034]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1440068986]
+custom_minimum_size = Vector2(820, 620)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=926228692]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 32.0
+offset_right = 780.0
+offset_bottom = 588.0
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=845822047]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Clinic Rush"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=2097561438]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Choose Difficulty"
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=1440107239]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Easy: longer order time | Medium: less order time + 3 lives | Hard: 1 slot + less order time + 1 life"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1844369395]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="EasyButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/Buttons" unique_id=590228161]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Start Easy"
+
+[node name="MediumButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/Buttons" unique_id=1880492013]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Start Medium"
+
+[node name="HardButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/Buttons" unique_id=1464277241]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Start Hard"

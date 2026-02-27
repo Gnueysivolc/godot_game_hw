@@ -53,6 +53,7 @@ var debug_inventory_upgrade_amount: int = 1
 # ------------------------
 
 var score: float = 0.0
+var win_score_threshold: float = 100000.0
 
 # ------------------------
 # LIFE
@@ -60,9 +61,11 @@ var score: float = 0.0
 
 var max_lives: int = 5
 var current_lives: int = 5
+var selected_difficulty: String = "easy"
 
 signal inventory_upgraded
 signal lives_changed(current: int, max_value: int)
+signal pause_toggled(paused: bool)
 signal global_value_modified(key: String, old_value: Variant, new_value: Variant)
 signal global_modifiers_toggled(enabled: bool)
 
@@ -76,7 +79,7 @@ const _MODIFIABLE_DEFAULTS := {
 	"order_time_limit": 30.0,
 	"order_length_min": 1,
 	"order_length_max": 2,
-	"box_respawn_time": 5.0,
+	"box_respawn_time": 8.0,
 	"wave_target_base_score": 10000.0,
 	"wave_target_growth_multiplier": 1.7,
 	"game_time_limit": 240,
@@ -84,6 +87,7 @@ const _MODIFIABLE_DEFAULTS := {
 	"player_move_speed": 300,
 	"debug_inventory_upgrade_amount": 1,
 	"score": 0.0,
+	"win_score_threshold": 100000.0,
 	"max_lives": 5,
 	"current_lives": 5,
 }
@@ -104,13 +108,62 @@ const _MODIFIABLE_LIMITS := {
 	"player_move_speed": {"min": 50, "max": 2000},
 	"debug_inventory_upgrade_amount": {"min": 0, "max": 6},
 	"score": {"min": 0.0, "max": 10000000.0},
+	"win_score_threshold": {"min": 1.0, "max": 1000000000.0},
 	"max_lives": {"min": 1, "max": 12},
 	"current_lives": {"min": 0, "max": 12},
 }
 
+const _DIFFICULTY_PRESETS := {
+	"easy": {
+		"order_time_limit": 45.0,
+		"max_lives": 5,
+		"unlocked_inventory_slots": 3,
+		"win_score_threshold": 60000.0,
+	},
+	"medium": {
+		"order_time_limit": 25.0,
+		"max_lives": 3,
+		"unlocked_inventory_slots": 2,
+	},
+	"hard": {
+		"order_time_limit": 15.0,
+		"max_lives": 1,
+		"unlocked_inventory_slots": 1,
+	},
+}
+
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	set_process_input(true)
 	reset_modifiable_values()
+
+
+func _input(event: InputEvent) -> void:
+	if not event.is_action_pressed("test"):
+		return
+	if not _is_gameplay_scene_active():
+		return
+	toggle_pause()
+
+
+func toggle_pause() -> void:
+	var tree: SceneTree = get_tree()
+	if tree == null:
+		return
+	tree.paused = not tree.paused
+	pause_toggled.emit(tree.paused)
+	print("Pause toggled. Paused:", tree.paused)
+
+
+func _is_gameplay_scene_active() -> bool:
+	var tree: SceneTree = get_tree()
+	if tree == null:
+		return false
+	var scene: Node = tree.current_scene
+	if scene == null:
+		return false
+	return scene.scene_file_path == "res://scenes/environment/clinic_map.tscn"
 
 
 func increase_inventory_size(amount: int):
@@ -150,6 +203,34 @@ func reset_modifiable_values() -> void:
 	for key in _MODIFIABLE_DEFAULTS.keys():
 		set(key, _MODIFIABLE_DEFAULTS[key])
 	_post_apply_safety()
+	selected_difficulty = "easy"
+
+
+func apply_difficulty_preset(difficulty_id: String) -> bool:
+	var normalized: String = difficulty_id.to_lower()
+	if not _DIFFICULTY_PRESETS.has(normalized):
+		push_warning("Unknown difficulty preset: %s" % difficulty_id)
+		return false
+
+	reset_modifiable_values()
+
+	var preset: Dictionary = _DIFFICULTY_PRESETS[normalized]
+	for key in preset.keys():
+		if _MODIFIABLE_DEFAULTS.has(key):
+			set(key, preset[key])
+
+	_post_apply_safety()
+	selected_difficulty = normalized
+	reset_lives()
+	inventory_upgraded.emit()
+
+	print(
+		"Difficulty preset applied: ", selected_difficulty,
+		" | order_time_limit=", order_time_limit,
+		" | max_lives=", max_lives,
+		" | unlocked_inventory_slots=", unlocked_inventory_slots
+	)
+	return true
 
 
 func modify_value(key: String, operation: String, amount: float) -> bool:
@@ -219,6 +300,7 @@ func _post_apply_safety() -> void:
 	wave_target_base_score = max(wave_target_base_score, 1.0)
 	wave_target_growth_multiplier = max(wave_target_growth_multiplier, 1.0)
 	game_time_limit = max(game_time_limit, 5.0)
+	win_score_threshold = max(win_score_threshold, 1.0)
 	max_lives = max(max_lives, 1)
 	current_lives = clamp(current_lives, 0, max_lives)
 

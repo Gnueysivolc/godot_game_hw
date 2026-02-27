@@ -7,6 +7,7 @@
 [node name="Ordercard" type="Panel" unique_id=2124218482]
 custom_minimum_size = Vector2(230, 120)
 script = ExtResource("1_iaa50")
+expire_at_pixels_left = 40.0
 
 [node name="face" type="TextureRect" parent="." unique_id=494895557]
 layout_mode = 0

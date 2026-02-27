@@ -17,23 +17,6 @@ func _connect_submit_stations() -> void:
 			continue
 		node.connect("submit_requested", Callable(self, "_on_submit_requested"))
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("test"):
-		_run_debug_order_test()
-
-
-func _run_debug_order_test() -> void:
-	if Global.debug_order_sequence.is_empty():
-		push_warning("debug_order_sequence is empty; add at least 1 item in inspector.")
-		return
-
-	var spawned: bool = inventory_ui.spawn_debug_order(Global.debug_order_sequence, Global.debug_time_limit)
-	if not spawned:
-		push_warning("Could not spawn debug order (max active orders reached).")
-		return
-	print("Debug order spawned:", Global.debug_order_sequence)
-
-
 func _on_box_item_obtained(item_type: ItemTypes.ItemType) -> void:
 	inventory_ui.add_item(item_type)
 
