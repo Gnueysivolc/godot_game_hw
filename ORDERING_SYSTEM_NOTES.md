@@ -252,3 +252,46 @@ File: `order/ordercard.gd`
   - 3-4: sad
   - 5-6: very sad
 - Safe fallback if `normal.png`, `sad.png`, `very_sad.png` not present.
+
+## Lives System (new)
+
+Files:
+- `global.gd`
+- `scenes/environment/inventory_ui.gd`
+- `scenes/environment/inventory_ui.tscn`
+- `scenes/ui/wave_popup.gd`
+- `scenes/ui/wave_popup.tscn`
+
+Implemented:
+- Global life state:
+  - `Global.max_lives` (default 5)
+  - `Global.current_lives` (default 5)
+  - `Global.lives_changed(current, max_value)` signal
+- Life helper methods in `Global`:
+  - `reset_lives()`
+  - `add_life(amount := 1)`
+  - `lose_life(amount := 1)`
+- Life values are included in global modifier defaults/limits and safety clamps.
+- UI hearts display:
+  - `HeartsContainer` at bottom of inventory canvas.
+  - uses `res://GUI/heart.png`.
+  - refreshes whenever `Global.lives_changed` emits.
+- Life deduction:
+  - On order timeout.
+  - At 0 lives -> game ends immediately (same end flow as timer end).
+- Wrong submitted item no longer auto-fails/deletes the order card.
+- Wave buff popup includes `Buff: Add +1 Life` (`life_up`).
+
+## HUD Backdrop / Score FX Controls
+
+File: `scenes/environment/inventory_ui.gd`
+
+Exposed in Inspector on `inventoryUI` node:
+- `hud_backdrop_color` (includes opacity/alpha)
+- `hud_backdrop_border_color` (set alpha to 0 for invisible border)
+- `score_particles_offset` (lets you reposition score particle burst origin)
+
+## Config Behavior Note
+
+- `Global.reset_modifiable_values()` runs on startup and applies values from `_MODIFIABLE_DEFAULTS`.
+- Runtime behavior follows `_MODIFIABLE_DEFAULTS`, so keep this dictionary aligned with your intended base tuning.

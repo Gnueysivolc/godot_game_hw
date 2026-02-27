@@ -11,6 +11,7 @@ signal buff_chosen(buff_id: String)
 @onready var box_buff_button: Button = $Panel/VBoxContainer/Buttons/BoxBuffButton
 @onready var speed_buff_button: Button = $Panel/VBoxContainer/Buttons/SpeedBuffButton
 @onready var inventory_buff_button: Button = $Panel/VBoxContainer/Buttons/InventoryBuffButton
+@onready var life_buff_button: Button = $Panel/VBoxContainer/Buttons/LifeBuffButton
 
 
 func _ready() -> void:
@@ -23,6 +24,8 @@ func _ready() -> void:
 		speed_buff_button.pressed.connect(_on_speed_buff_pressed)
 	if not inventory_buff_button.pressed.is_connected(_on_inventory_buff_pressed):
 		inventory_buff_button.pressed.connect(_on_inventory_buff_pressed)
+	if not life_buff_button.pressed.is_connected(_on_life_buff_pressed):
+		life_buff_button.pressed.connect(_on_life_buff_pressed)
 
 
 func show_popup(wave: int, target_score: float, game_time_left: float) -> void:
@@ -54,6 +57,10 @@ func _on_speed_buff_pressed() -> void:
 
 func _on_inventory_buff_pressed() -> void:
 	buff_chosen.emit("inventory_up")
+
+
+func _on_life_buff_pressed() -> void:
+	buff_chosen.emit("life_up")
 
 
 func _format_time(total_seconds: float) -> String:

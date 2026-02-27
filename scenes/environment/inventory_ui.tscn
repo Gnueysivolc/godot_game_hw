@@ -61,6 +61,15 @@ theme_override_font_sizes/font_size = 22
 text = "Time: 00:00"
 horizontal_alignment = 2
 
+[node name="HeartsContainer" type="HBoxContainer" parent="." unique_id=187411116]
+z_index = 21
+offset_left = 584.0
+offset_top = 864.0
+offset_right = 980.0
+offset_bottom = 944.0
+scale = Vector2(2.6627378, 2.7402265)
+theme_override_constants/separation = 10
+
 [node name="OrdersHBox" type="HBoxContainer" parent="." unique_id=187411111]
 offset_left = 280.0
 offset_top = 24.0

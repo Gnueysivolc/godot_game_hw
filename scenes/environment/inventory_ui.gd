@@ -7,6 +7,7 @@ class_name InventoryUI
 @onready var score_label: Label = $ScoreLabel
 @onready var wave_target_label: Label = $WaveTargetLabel
 @onready var game_timer_label: Label = $GameTimerLabel
+@onready var hearts_container: HBoxContainer = $HeartsContainer
 @onready var hud_backdrop: Panel = $HudBackdrop
 @onready var wave_popup: WavePopup = $WavePopup
 @onready var game_over_popup: GameOverPopup = $GameOverPopup
@@ -25,6 +26,7 @@ const BLUE_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/blue_i
 const GREEN_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/green_injection.png")
 const PURPLE_INJECTION_ICON: Texture2D = preload("res://GUI/inventory/items/purple_injection.png")
 const ORDER_FACE_ICON: Texture2D = preload("res://order/backcard.png")
+const HEART_ICON: Texture2D = preload("res://GUI/heart.png")
 
 @export var score_particles_offset: Vector2 = Vector2.ZERO
 @export var hud_backdrop_color: Color = Color(0.0, 0.0, 0.0, 0.3)
@@ -60,10 +62,14 @@ func _ready():
 
 	if not wave_popup.buff_chosen.is_connected(_on_wave_buff_chosen):
 		wave_popup.buff_chosen.connect(_on_wave_buff_chosen)
+	if not Global.lives_changed.is_connected(_on_lives_changed):
+		Global.lives_changed.connect(_on_lives_changed)
 	_setup_score_feedback_fx()
 	_apply_hud_backdrop_style()
 
+	Global.reset_lives()
 	_update_score_label()
+	_update_lives_display()
 	_update_wave_target_label()
 	_update_game_timer_label()
 	update_locks()
@@ -81,6 +87,7 @@ func _process(delta: float) -> void:
 	if game_time_left <= 0.0:
 		game_time_left = 0.0
 		_update_game_timer_label()
+		print("Game over reason: session timer reached 0.")
 		_end_game()
 		return
 
@@ -278,10 +285,12 @@ func _on_order_completed(order: OrderCard) -> void:
 
 func _on_order_timed_out(order: OrderCard) -> void:
 	_remove_order(order)
+	_lose_life_and_check_end()
 
 
 func _on_order_failed(order: OrderCard) -> void:
 	_remove_order(order)
+	print("Order failed.")
 
 
 func _remove_order(order: OrderCard) -> void:
@@ -430,6 +439,8 @@ func _on_wave_buff_chosen(buff_id: String) -> void:
 			Global.modify_value("player_move_speed", "add", 100)
 		"inventory_up":
 			Global.increase_inventory_size(1)
+		"life_up":
+			Global.add_life(1)
 		_:
 			push_warning("Unknown buff id: %s" % buff_id)
 
@@ -457,6 +468,33 @@ func _end_game() -> void:
 		average_time_left_ratio = total_time_used_ratio / float(cured_patients)
 
 	game_over_popup.show_results(cured_patients, average_time_left_ratio, Global.score)
+
+
+func _on_lives_changed(_current: int, _max_value: int) -> void:
+	_update_lives_display()
+
+
+func _update_lives_display() -> void:
+	for child in hearts_container.get_children():
+		child.queue_free()
+
+	for i in range(Global.current_lives):
+		var heart: TextureRect = TextureRect.new()
+		heart.texture = HEART_ICON
+		heart.custom_minimum_size = Vector2(42, 42)
+		heart.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		hearts_container.add_child(heart)
+
+
+func _lose_life_and_check_end() -> void:
+	if game_ended:
+		return
+	Global.lose_life(1)
+	print("Life lost. Remaining lives:", Global.current_lives)
+	if Global.current_lives <= 0:
+		print("Game over reason: lives reached 0.")
+		_end_game()
 
 # ---------------------------
 # LOCK SYSTEM (UNCHANGED)

@@ -56,6 +56,7 @@ var duration: float = 10.0
 var time_left: float = 0.0
 var running: bool = false
 var locked: bool = false
+var resolved: bool = false
 var base_face_texture: Texture2D
 
 # -----------------------
@@ -71,6 +72,7 @@ func setup(sequence: Array[ItemTypes.ItemType], time_limit: float):
 	current_step = 0
 	running = true
 	locked = false
+	resolved = false
 
 	base_face_texture = _get_face_for_required_count(required.size())
 	face.texture = base_face_texture
@@ -110,7 +112,7 @@ func get_duration() -> float:
 # -----------------------
 
 func _process(delta):
-	if not running:
+	if not running or resolved:
 		return
 
 	time_left -= delta
@@ -119,6 +121,7 @@ func _process(delta):
 
 	if time_left <= 0:
 		running = false
+		resolved = true
 		face.texture = face_sad
 		_dim_all()
 		timed_out.emit()
@@ -130,7 +133,7 @@ func _process(delta):
 
 func submit_item(item_type: ItemTypes.ItemType) -> bool:
 
-	if not running or locked:
+	if not running or locked or resolved:
 		return false
 
 	if current_step >= required.size():
@@ -144,14 +147,13 @@ func submit_item(item_type: ItemTypes.ItemType) -> bool:
 
 		if current_step >= required.size():
 			running = false
+			resolved = true
 			completed.emit()
 
 		return true
 	else:
-		locked = true
-		face.texture = face_sick
-		_dim_all()
-		failed.emit()
+		# Wrong items should not instantly fail/delete the order.
+		# They are simply consumed by submit station and order remains active.
 		return false
 
 
@@ -163,6 +165,7 @@ func restart():
 	current_step = 0
 	locked = false
 	running = true
+	resolved = false
 	time_left = duration
 	face.texture = base_face_texture
 	time_bar.min_value = 0.0

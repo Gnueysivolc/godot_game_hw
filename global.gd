@@ -54,7 +54,15 @@ var debug_inventory_upgrade_amount: int = 1
 
 var score: float = 0.0
 
+# ------------------------
+# LIFE
+# ------------------------
+
+var max_lives: int = 5
+var current_lives: int = 5
+
 signal inventory_upgraded
+signal lives_changed(current: int, max_value: int)
 signal global_value_modified(key: String, old_value: Variant, new_value: Variant)
 signal global_modifiers_toggled(enabled: bool)
 
@@ -71,11 +79,13 @@ const _MODIFIABLE_DEFAULTS := {
 	"box_respawn_time": 5.0,
 	"wave_target_base_score": 10000.0,
 	"wave_target_growth_multiplier": 1.7,
-	"game_time_limit": 10,
+	"game_time_limit": 240,
 	"debug_time_limit": 15.0,
 	"player_move_speed": 300,
 	"debug_inventory_upgrade_amount": 1,
 	"score": 0.0,
+	"max_lives": 5,
+	"current_lives": 5,
 }
 
 const _MODIFIABLE_LIMITS := {
@@ -94,6 +104,8 @@ const _MODIFIABLE_LIMITS := {
 	"player_move_speed": {"min": 50, "max": 2000},
 	"debug_inventory_upgrade_amount": {"min": 0, "max": 6},
 	"score": {"min": 0.0, "max": 10000000.0},
+	"max_lives": {"min": 1, "max": 12},
+	"current_lives": {"min": 0, "max": 12},
 }
 
 
@@ -117,6 +129,21 @@ func set_modifiers_enabled(enabled: bool) -> void:
 	if not modifiers_enabled:
 		reset_modifiable_values()
 	global_modifiers_toggled.emit(modifiers_enabled)
+
+
+func reset_lives() -> void:
+	current_lives = max_lives
+	lives_changed.emit(current_lives, max_lives)
+
+
+func add_life(amount: int = 1) -> void:
+	current_lives = clamp(current_lives + max(amount, 0), 0, max_lives)
+	lives_changed.emit(current_lives, max_lives)
+
+
+func lose_life(amount: int = 1) -> void:
+	current_lives = clamp(current_lives - max(amount, 0), 0, max_lives)
+	lives_changed.emit(current_lives, max_lives)
 
 
 func reset_modifiable_values() -> void:
@@ -192,6 +219,8 @@ func _post_apply_safety() -> void:
 	wave_target_base_score = max(wave_target_base_score, 1.0)
 	wave_target_growth_multiplier = max(wave_target_growth_multiplier, 1.0)
 	game_time_limit = max(game_time_limit, 5.0)
+	max_lives = max(max_lives, 1)
+	current_lives = clamp(current_lives, 0, max_lives)
 
 
 func _apply_limits() -> void:
