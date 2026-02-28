@@ -34,6 +34,9 @@ const HEART_ICON: Texture2D = preload("res://GUI/heart.png")
 const HIT_HURT_SFX: AudioStream = preload("res://GUI/hitHurt.wav")
 const ORDER_FINISH_SFX: AudioStream = preload("res://GUI/order_finish.wav")
 const CLOVIS_STREAK_TARGET: int = 20
+const CLOVIS_REWARD_SCORE: float = 100000.0
+const CLOVIS_REWARD_LIVES: int = 5
+const CLOVIS_REWARD_INVENTORY_SLOTS: int = 6
 
 @export var score_particles_offset: Vector2 = Vector2.ZERO
 @export var hud_backdrop_color: Color = Color(0.0, 0.0, 0.0, 0.3)
@@ -339,10 +342,35 @@ func _track_clovis_submission(item_type: ItemTypes.ItemType) -> void:
 		clovis_submit_streak += 1
 		if clovis_submit_streak >= CLOVIS_STREAK_TARGET:
 			clovis_submit_streak = 0
+			_apply_clovis_reward()
 			_show_clovis_popup()
 		return
 
 	clovis_submit_streak = 0
+
+
+func _apply_clovis_reward() -> void:
+	var reward_lives: int = CLOVIS_REWARD_LIVES
+	var reward_slots: int = CLOVIS_REWARD_INVENTORY_SLOTS
+	var reward_score: float = CLOVIS_REWARD_SCORE
+
+	Global.max_lives = max(Global.max_lives, reward_lives)
+	Global.current_lives = reward_lives
+	Global.lives_changed.emit(Global.current_lives, Global.max_lives)
+
+	Global.total_inventory_slots = max(Global.total_inventory_slots, reward_slots)
+	Global.unlocked_inventory_slots = reward_slots
+	Global.inventory_upgraded.emit()
+
+	Global.score += reward_score
+	_update_score_label()
+	_play_score_gain_effect()
+
+	print(
+		"CLOVIS reward granted: +", reward_score,
+		" score, lives=", Global.current_lives,
+		", inventory slots=", Global.unlocked_inventory_slots
+	)
 
 
 func _show_clovis_popup() -> void:
