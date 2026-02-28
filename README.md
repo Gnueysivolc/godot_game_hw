@@ -25,7 +25,7 @@
 
 some screenshots
 
-![game_image](images/gameplay.png)
+![game_image](images/game_play.png)
 
 ![game_image](images/end_screen.png)
 
