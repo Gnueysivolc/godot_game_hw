@@ -197,10 +197,17 @@ func _is_gameplay_scene_active() -> bool:
 
 
 func _ensure_keyboard_movement_bindings() -> void:
-	_ensure_action_has_key("up", KEY_W)
-	_ensure_action_has_key("down", KEY_S)
-	_ensure_action_has_key("left", KEY_A)
-	_ensure_action_has_key("right", KEY_D)
+	# Arrow-key-only movement bindings.
+	_ensure_action_has_key("up", KEY_UP)
+	_ensure_action_has_key("down", KEY_DOWN)
+	_ensure_action_has_key("left", KEY_LEFT)
+	_ensure_action_has_key("right", KEY_RIGHT)
+
+	# Remove legacy WASD movement keys to avoid sticky/conflicting input.
+	_remove_action_key("up", KEY_W)
+	_remove_action_key("down", KEY_S)
+	_remove_action_key("left", KEY_A)
+	_remove_action_key("right", KEY_D)
 
 
 func _ensure_action_has_key(action_name: String, key: Key) -> void:
@@ -218,6 +225,19 @@ func _ensure_action_has_key(action_name: String, key: Key) -> void:
 	add_event.keycode = key
 	add_event.physical_keycode = key
 	InputMap.action_add_event(action_name, add_event)
+
+
+func _remove_action_key(action_name: String, key: Key) -> void:
+	if not InputMap.has_action(action_name):
+		return
+
+	var events: Array[InputEvent] = InputMap.action_get_events(action_name)
+	for event in events:
+		if not (event is InputEventKey):
+			continue
+		var key_event: InputEventKey = event as InputEventKey
+		if key_event.keycode == key or key_event.physical_keycode == key:
+			InputMap.action_erase_event(action_name, key_event)
 
 
 func _ensure_test_pause_binding() -> void:
@@ -294,14 +314,13 @@ func _setup_web_input_guard() -> void:
 			});
 
 			const moveMap = {
-				'KeyW': 'up', 'ArrowUp': 'up',
-				'KeyS': 'down', 'ArrowDown': 'down',
-				'KeyA': 'left', 'ArrowLeft': 'left',
-				'KeyD': 'right', 'ArrowRight': 'right'
+				'ArrowUp': 'up',
+				'ArrowDown': 'down',
+				'ArrowLeft': 'left',
+				'ArrowRight': 'right'
 			};
 
 			const blockedCodes = new Set([
-				'KeyW', 'KeyA', 'KeyS', 'KeyD',
 				'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
 				'Space', 'Enter'
 			]);

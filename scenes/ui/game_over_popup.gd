@@ -6,6 +6,7 @@ class_name GameOverPopup
 @onready var cured_label: Label = $Panel/VBoxContainer/CuredLabel
 @onready var satisfaction_label: Label = $Panel/VBoxContainer/SatisfactionLabel
 @onready var score_label: Label = $Panel/VBoxContainer/ScoreLabel
+@onready var restart_button: Button = $Panel/VBoxContainer/RestartButton
 
 var runtime_panel_style: StyleBoxFlat
 var base_bg_color: Color = Color(0.08, 0.08, 0.1, 0.96)
@@ -15,6 +16,8 @@ var win_color_tween: Tween
 
 func _ready() -> void:
 	visible = false
+	if not restart_button.pressed.is_connected(_on_restart_pressed):
+		restart_button.pressed.connect(_on_restart_pressed)
 	var style: StyleBoxFlat = panel.get_theme_stylebox("panel") as StyleBoxFlat
 	if style != null:
 		runtime_panel_style = style.duplicate() as StyleBoxFlat
@@ -72,3 +75,19 @@ func _apply_panel_colors(bg: Color, border: Color) -> void:
 		return
 	runtime_panel_style.bg_color = bg
 	runtime_panel_style.border_color = border
+
+
+func _on_restart_pressed() -> void:
+	if win_color_tween and win_color_tween.is_running():
+		win_color_tween.kill()
+	_apply_panel_colors(base_bg_color, base_border_color)
+
+	if Global.has_method("flush_movement_input"):
+		Global.flush_movement_input()
+
+	var tree: SceneTree = get_tree()
+	if tree == null:
+		return
+	tree.paused = false
+	visible = false
+	tree.change_scene_to_file("res://scenes/ui/start_screen.tscn")

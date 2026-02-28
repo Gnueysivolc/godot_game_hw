@@ -281,6 +281,22 @@ Implemented:
 - Wrong submitted item no longer auto-fails/deletes the order card.
 - Wave buff popup includes `Buff: Add +1 Life` (`life_up`).
 
+## Restart Flow From End Screen
+
+Files:
+- `scenes/ui/game_over_popup.tscn`
+- `scenes/ui/game_over_popup.gd`
+
+Behavior:
+- Added `RestartButton` to the game-over / win popup.
+- Pressing restart:
+  - stops the win color-loop tween if active,
+  - restores panel colors to base style,
+  - flushes held movement input,
+  - unpauses the tree (`get_tree().paused = false`),
+  - changes scene to `res://scenes/ui/start_screen.tscn`.
+- Result: player can immediately start a fresh run and re-choose difficulty.
+
 ## HUD Backdrop / Score FX Controls
 
 File: `scenes/environment/inventory_ui.gd`
@@ -341,6 +357,22 @@ Behavior:
 - Press input action `test` during gameplay to toggle pause/resume quickly.
 - Current binding: right mouse or `T` (based on input map).
 - Pause handling lives in autoload `Global`, with `process_mode = ALWAYS`, so pressing `test` again works while paused.
+
+## Movement Input Update (Arrow-Only)
+
+Files:
+- `global.gd`
+- `project.godot`
+
+Implemented:
+- Removed WASD movement support from runtime/web input handling.
+- Movement actions now bind to arrow keys only:
+  - `up` = `ArrowUp`
+  - `down` = `ArrowDown`
+  - `left` = `ArrowLeft`
+  - `right` = `ArrowRight`
+- Added explicit runtime cleanup that erases legacy WASD keys from movement actions.
+- Added missing `left` action mapping in `project.godot` so left movement is guaranteed without WASD.
 
 ## Web Input Stability Note (WASD)
 
