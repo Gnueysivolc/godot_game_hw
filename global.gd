@@ -62,6 +62,8 @@ var win_score_threshold: float = 100000.0
 const GAME_BGM_STREAM: AudioStream = preload("res://scenes/environment/Sakura-Girl-Cat-Walk-chosic.mp3")
 var game_bgm_volume_db: float = -8.0
 var game_bgm_player: AudioStreamPlayer
+var web_input_guard_initialized: bool = false
+var _web_canvas_focused: bool = true
 
 # ------------------------
 # LIFE
@@ -146,11 +148,23 @@ func _ready() -> void:
 	set_process_input(true)
 	_ensure_keyboard_movement_bindings()
 	_ensure_test_pause_binding()
+	_setup_web_input_guard()
 	_setup_game_bgm()
 	reset_modifiable_values()
 
 
+func _process(_delta: float) -> void:
+	if OS.has_feature("web"):
+		var focused: bool = JavaScriptBridge.eval("window.__mhCanvasFocused === true", true)
+		if _web_canvas_focused and not focused:
+			flush_movement_input()
+		_web_canvas_focused = focused
+
+
 func _input(event: InputEvent) -> void:
+	if OS.has_feature("web") and (event is InputEventKey or event is InputEventMouseButton):
+		_refresh_web_canvas_focus()
+
 	if not (event is InputEventKey):
 		return
 	var key_event: InputEventKey = event as InputEventKey
@@ -216,6 +230,125 @@ func _ensure_test_pause_binding() -> void:
 			InputMap.action_erase_event("test", event)
 
 	_ensure_action_has_key("test", KEY_T)
+
+
+func is_game_focused() -> bool:
+	if OS.has_feature("web"):
+		return _web_canvas_focused
+	return DisplayServer.window_is_focused()
+
+
+func flush_movement_input() -> void:
+	for action in ["up", "down", "left", "right"]:
+		Input.action_release(action)
+
+
+func get_web_movement_state() -> int:
+	if not OS.has_feature("web"):
+		return 0
+	return int(JavaScriptBridge.eval(
+		"window.__mhKeys?(window.__mhKeys.up?1:0)|(window.__mhKeys.down?2:0)|(window.__mhKeys.left?4:0)|(window.__mhKeys.right?8:0):0",
+		true
+	))
+
+
+func _setup_web_input_guard() -> void:
+	if not OS.has_feature("web"):
+		return
+	if web_input_guard_initialized:
+		return
+	web_input_guard_initialized = true
+
+	JavaScriptBridge.eval(
+		"""
+		(function () {
+			const canvas = document.querySelector('canvas');
+			if (!canvas) return;
+
+			if (!canvas.hasAttribute('tabindex')) {
+				canvas.tabIndex = 0;
+			}
+
+			const focusCanvas = function () {
+				try {
+					canvas.focus({ preventScroll: true });
+				} catch (e) {
+					canvas.focus();
+				}
+			};
+
+			focusCanvas();
+			window.__mhFocusCanvas = focusCanvas;
+			window.__mhCanvasFocused = true;
+			window.__mhKeys = { up: false, down: false, left: false, right: false };
+
+			canvas.addEventListener('focus', function () {
+				window.__mhCanvasFocused = true;
+			});
+			canvas.addEventListener('blur', function () {
+				window.__mhCanvasFocused = false;
+				window.__mhKeys.up = false;
+				window.__mhKeys.down = false;
+				window.__mhKeys.left = false;
+				window.__mhKeys.right = false;
+			});
+
+			const moveMap = {
+				'KeyW': 'up', 'ArrowUp': 'up',
+				'KeyS': 'down', 'ArrowDown': 'down',
+				'KeyA': 'left', 'ArrowLeft': 'left',
+				'KeyD': 'right', 'ArrowRight': 'right'
+			};
+
+			const blockedCodes = new Set([
+				'KeyW', 'KeyA', 'KeyS', 'KeyD',
+				'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+				'Space', 'Enter'
+			]);
+
+			document.addEventListener('keydown', function (e) {
+				if (blockedCodes.has(e.code)) {
+					e.preventDefault();
+				}
+				var dir = moveMap[e.code];
+				if (dir) {
+					window.__mhKeys[dir] = true;
+				}
+			}, false);
+
+			document.addEventListener('keyup', function (e) {
+				if (blockedCodes.has(e.code)) {
+					e.preventDefault();
+				}
+				var dir = moveMap[e.code];
+				if (dir) {
+					window.__mhKeys[dir] = false;
+				}
+			}, false);
+
+			window.addEventListener('blur', function () {
+				window.__mhKeys.up = false;
+				window.__mhKeys.down = false;
+				window.__mhKeys.left = false;
+				window.__mhKeys.right = false;
+				window.__mhCanvasFocused = false;
+			});
+
+			canvas.addEventListener('mousedown', focusCanvas);
+			canvas.addEventListener('touchstart', focusCanvas, { passive: true });
+		})();
+		""",
+		true
+	)
+
+
+func _refresh_web_canvas_focus() -> void:
+	if not OS.has_feature("web"):
+		return
+	JavaScriptBridge.eval(
+		"if (window.__mhFocusCanvas) { window.__mhFocusCanvas(); }",
+		true
+	)
 
 
 func _setup_game_bgm() -> void:

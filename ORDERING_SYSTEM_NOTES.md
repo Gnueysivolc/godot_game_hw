@@ -360,6 +360,10 @@ Changes:
   - `test` pause input is enforced as keyboard-only (`T`), with mouse events removed at runtime.
   - Pause toggle ignores key echo/repeat.
   - Player movement is zeroed on window focus loss to prevent stuck-direction movement.
+  - Web canvas focus/keyboard guard in `Global`:
+    - forces canvas focus
+    - prevents browser default handling of `WASD`, arrow keys, `Space`, `Enter`
+    - re-focuses canvas on mouse/key input events
 
 ## Order Expires By Pixels Left
 

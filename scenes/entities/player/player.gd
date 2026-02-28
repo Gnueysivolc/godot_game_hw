@@ -21,14 +21,19 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	speed = Global.player_move_speed
-	if not DisplayServer.window_is_focused():
+	if not Global.is_game_focused():
 		move_direction = Vector2.ZERO
 		set_velocity(Vector2.ZERO)
 		play_idle()
 		return
 
-	move_direction.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
-	move_direction.y = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+	if OS.has_feature("web"):
+		var state: int = Global.get_web_movement_state()
+		move_direction.x = ((state >> 3) & 1) - ((state >> 2) & 1)  # right - left
+		move_direction.y = ((state >> 1) & 1) - (state & 1)          # down - up
+	else:
+		move_direction.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+		move_direction.y = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 	var motion: Vector2 = move_direction.normalized() * speed
 	set_velocity(motion)
 	move_and_slide()
@@ -67,6 +72,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 		move_direction = Vector2.ZERO
 		set_velocity(Vector2.ZERO)
+		Global.flush_movement_input()
 		
 		
 		
