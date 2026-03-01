@@ -41,7 +41,7 @@ func _ready():
 
 	anim.play("close")
 
-	exclamation.visible = false
+	exclamation.visible = true
 
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)

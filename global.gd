@@ -125,18 +125,18 @@ const _MODIFIABLE_LIMITS := {
 
 const _DIFFICULTY_PRESETS := {
 	"easy": {
-		"order_time_limit": 45.0,
+		"order_time_limit": 60.0,
 		"max_lives": 5,
 		"unlocked_inventory_slots": 3,
 		"win_score_threshold": 60000.0,
 	},
 	"medium": {
-		"order_time_limit": 25.0,
+		"order_time_limit": 45.0,
 		"max_lives": 3,
 		"unlocked_inventory_slots": 2,
 	},
 	"hard": {
-		"order_time_limit": 15.0,
+		"order_time_limit": 25.0,
 		"max_lives": 1,
 		"unlocked_inventory_slots": 1,
 	},

@@ -1,31 +1,31 @@
-[gd_scene format=4 uid="uid://dhbmyqtp5uyo1"]
+[gd_scene format=4 uid="uid://ckwdj72chu2hh"]
 
-[ext_resource type="Texture2D" uid="uid://b1xvrkyibjxn1" path="res://asset/environment/clinic_title_final.png" id="1_ovgxd"]
-[ext_resource type="Script" uid="uid://buovse2bir4kw" path="res://scenes/environment/clinic_map.gd" id="1_v52j8"]
-[ext_resource type="Texture2D" uid="uid://cx5cy4ct1p2gh" path="res://asset/environment/wall_final.png" id="2_egmkv"]
-[ext_resource type="Texture2D" uid="uid://cenbsuyfnr7w3" path="res://asset/environment/arrow.png" id="2_xybgx"]
-[ext_resource type="Texture2D" uid="uid://c6xwxh02w5dmj" path="res://asset/environment/wall_top.png" id="3_k0kmk"]
-[ext_resource type="Texture2D" uid="uid://cii1fbvvei484" path="res://GUI/interactable/box/submit_box.png" id="3_kyfsy"]
-[ext_resource type="PackedScene" uid="uid://bockxn2vrcppn" path="res://scenes/entities/player/player.tscn" id="4_k0kmk"]
-[ext_resource type="Texture2D" uid="uid://8u706u31iq6m" path="res://asset/props/bed.png" id="4_ssdgm"]
-[ext_resource type="Texture2D" uid="uid://be6jsx0lajfho" path="res://asset/props/first_aid_box.png" id="5_x0ge4"]
-[ext_resource type="Texture2D" uid="uid://b4vfag73eli3o" path="res://asset/props/stand.png" id="6_wri35"]
-[ext_resource type="Texture2D" uid="uid://bl2fhd4x5icdy" path="res://asset/props/table.png" id="7_ltcl3"]
-[ext_resource type="PackedScene" uid="uid://cilduvo8t3xv7" path="res://scenes/environment/inventory_ui.tscn" id="9_wri35"]
-[ext_resource type="PackedScene" uid="uid://c1k70xkphh4bj" path="res://GUI/interactable/box/finalbox.tscn" id="10_wri35"]
-[ext_resource type="Texture2D" uid="uid://tytlnybedmng" path="res://GUI/interactable/box/blue_box_animation.png" id="13_2o8nt"]
-[ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="13_c4gu0"]
-[ext_resource type="Texture2D" uid="uid://cmubpgh0atmc4" path="res://GUI/interactable/box/purple_box_animation.png" id="15_ypog4"]
-[ext_resource type="Texture2D" uid="uid://b3ivk0sjr3egl" path="res://GUI/interactable/box/green_box_animation.png" id="16_8xfdk"]
-[ext_resource type="Texture2D" uid="uid://cotew7sckbhnr" path="res://GUI/interactable/box/red_injection_animation.png" id="16_p4h1h"]
-[ext_resource type="Texture2D" uid="uid://bp4awfohijlvr" path="res://GUI/interactable/box/green_injection_animation.png" id="17_ss1u1"]
-[ext_resource type="Texture2D" uid="uid://cvnryah5bobsc" path="res://GUI/interactable/box/blue_injection_animation.png" id="18_8xfdk"]
-[ext_resource type="Texture2D" uid="uid://cyohiwtpiubg" path="res://GUI/interactable/box/purple_injection_animation.png" id="19_kyfsy"]
-[ext_resource type="PackedScene" uid="uid://pofpld3udggg" path="res://GUI/interactable/box/submit.tscn" id="25_m83tt"]
-[ext_resource type="Texture2D" uid="uid://c73tupb83fsi8" path="res://GUI/interactable/box/submit_box_animation.png" id="26_2hgch"]
+[ext_resource type="Script" uid="uid://buovse2bir4kw" path="res://scenes/environment/clinic_map.gd" id="1_3ca4h"]
+[ext_resource type="PackedScene" uid="uid://bockxn2vrcppn" path="res://scenes/entities/player/player.tscn" id="2_uppdw"]
+[ext_resource type="Texture2D" uid="uid://cenbsuyfnr7w3" path="res://asset/environment/arrow.png" id="3_uege6"]
+[ext_resource type="Texture2D" uid="uid://b1xvrkyibjxn1" path="res://asset/environment/clinic_title_final.png" id="4_4rfex"]
+[ext_resource type="Texture2D" uid="uid://cii1fbvvei484" path="res://GUI/interactable/box/submit_box.png" id="5_8o7n1"]
+[ext_resource type="Texture2D" uid="uid://c6xwxh02w5dmj" path="res://asset/environment/wall_top.png" id="6_ku2km"]
+[ext_resource type="Texture2D" uid="uid://b4vfag73eli3o" path="res://asset/props/stand.png" id="7_5tw64"]
+[ext_resource type="Texture2D" uid="uid://8u706u31iq6m" path="res://asset/props/bed.png" id="8_8p8vh"]
+[ext_resource type="Texture2D" uid="uid://be6jsx0lajfho" path="res://asset/props/first_aid_box.png" id="9_joh1p"]
+[ext_resource type="Texture2D" uid="uid://bl2fhd4x5icdy" path="res://asset/props/table.png" id="10_lud1g"]
+[ext_resource type="Texture2D" uid="uid://cx5cy4ct1p2gh" path="res://asset/environment/wall_final.png" id="11_epx3k"]
+[ext_resource type="PackedScene" uid="uid://cilduvo8t3xv7" path="res://scenes/environment/inventory_ui.tscn" id="12_o3of3"]
+[ext_resource type="PackedScene" uid="uid://c1k70xkphh4bj" path="res://GUI/interactable/box/finalbox.tscn" id="13_2rjtm"]
+[ext_resource type="Texture2D" uid="uid://dog8cpo0lwkr1" path="res://GUI/interactable/box/red_box_animation.png" id="14_ahua3"]
+[ext_resource type="Texture2D" uid="uid://tytlnybedmng" path="res://GUI/interactable/box/blue_box_animation.png" id="15_g0k52"]
+[ext_resource type="Texture2D" uid="uid://b3ivk0sjr3egl" path="res://GUI/interactable/box/green_box_animation.png" id="16_8pwao"]
+[ext_resource type="Texture2D" uid="uid://cmubpgh0atmc4" path="res://GUI/interactable/box/purple_box_animation.png" id="17_2wxil"]
+[ext_resource type="Texture2D" uid="uid://cotew7sckbhnr" path="res://GUI/interactable/box/red_injection_animation.png" id="18_psbn0"]
+[ext_resource type="Texture2D" uid="uid://bp4awfohijlvr" path="res://GUI/interactable/box/green_injection_animation.png" id="19_v4reh"]
+[ext_resource type="Texture2D" uid="uid://cvnryah5bobsc" path="res://GUI/interactable/box/blue_injection_animation.png" id="20_6vjsu"]
+[ext_resource type="Texture2D" uid="uid://cyohiwtpiubg" path="res://GUI/interactable/box/purple_injection_animation.png" id="21_3u7ru"]
+[ext_resource type="PackedScene" uid="uid://pofpld3udggg" path="res://GUI/interactable/box/submit.tscn" id="22_1rifq"]
+[ext_resource type="Texture2D" uid="uid://c73tupb83fsi8" path="res://GUI/interactable/box/submit_box_animation.png" id="23_s6bx4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wvdgp"]
-texture = ExtResource("2_xybgx")
+texture = ExtResource("3_uege6")
 margins = Vector2i(5, 0)
 texture_region_size = Vector2i(24, 30)
 0:0/0 = 0
@@ -35,7 +35,7 @@ texture_region_size = Vector2i(24, 30)
 sources/0 = SubResource("TileSetAtlasSource_wvdgp")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x8lf1"]
-texture = ExtResource("1_ovgxd")
+texture = ExtResource("4_4rfex")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 
@@ -44,7 +44,7 @@ tile_size = Vector2i(64, 64)
 sources/1 = SubResource("TileSetAtlasSource_x8lf1")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xybgx"]
-texture = ExtResource("3_kyfsy")
+texture = ExtResource("5_8o7n1")
 texture_region_size = Vector2i(46, 56)
 0:0/0 = 0
 
@@ -53,7 +53,7 @@ tile_size = Vector2i(46, 56)
 sources/0 = SubResource("TileSetAtlasSource_xybgx")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8xfdk"]
-texture = ExtResource("1_ovgxd")
+texture = ExtResource("4_4rfex")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
@@ -64,7 +64,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_8xfdk")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3fasg"]
-texture = ExtResource("3_k0kmk")
+texture = ExtResource("6_ku2km")
 margins = Vector2i(8, 8)
 texture_region_size = Vector2i(4, 4)
 2:2/0 = 0
@@ -218,7 +218,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_3fasg")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ssdgm"]
-texture = ExtResource("6_wri35")
+texture = ExtResource("7_5tw64")
 0:0/next_alternative_id = 2
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 7)
@@ -549,7 +549,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ssdgm")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_spqyn"]
-texture = ExtResource("4_ssdgm")
+texture = ExtResource("8_8p8vh")
 0:0/0 = 0
 0:0/0/y_sort_origin = 20
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -687,7 +687,7 @@ texture = ExtResource("4_ssdgm")
 7:7/0/y_sort_origin = 20
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ve1ly"]
-texture = ExtResource("5_x0ge4")
+texture = ExtResource("9_joh1p")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -696,7 +696,7 @@ texture = ExtResource("5_x0ge4")
 2:1/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2o8nt"]
-texture = ExtResource("6_wri35")
+texture = ExtResource("7_5tw64")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -764,7 +764,7 @@ texture = ExtResource("6_wri35")
 7:8/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ypog4"]
-texture = ExtResource("7_ltcl3")
+texture = ExtResource("10_lud1g")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -968,7 +968,7 @@ sources/7 = SubResource("TileSetAtlasSource_2o8nt")
 sources/8 = SubResource("TileSetAtlasSource_ypog4")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v52j8"]
-texture = ExtResource("2_egmkv")
+texture = ExtResource("11_epx3k")
 separation = Vector2i(25, 0)
 texture_region_size = Vector2i(71, 135)
 0:0/0 = 0
@@ -986,13 +986,13 @@ tile_size = Vector2i(71, 135)
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_v52j8")
 
-[node name="clinic_map" type="Node2D" unique_id=881880705]
+[node name="tutorial_map" type="Node2D" unique_id=881880705]
 y_sort_enabled = true
 position = Vector2(512, 296)
 scale = Vector2(0.4456653, 0.48815304)
-script = ExtResource("1_v52j8")
+script = ExtResource("1_3ca4h")
 
-[node name="player" parent="." unique_id=769927342 instance=ExtResource("4_k0kmk")]
+[node name="player" parent="." unique_id=769927342 instance=ExtResource("2_uppdw")]
 z_index = 1
 position = Vector2(29.169922, 49.164917)
 
@@ -1069,79 +1069,79 @@ position = Vector2(64, -610)
 tile_map_data = PackedByteArray("AADv/wAAAQAAAAEAAADw/wAAAQAAAAEAAADx/wAAAQAAAAEAAADy/wAAAQAAAAEAAADz/wAAAQAAAAEAAAD0/wAAAQAAAAEAAAD1/wAAAQAAAAEAAAD2/wAAAQAAAAEAAAD3/wAAAQAAAAEAAAD4/wAAAQAAAAEAAAD5/wAAAQAAAAEAAAD6/wAAAQAAAAEAAAD7/wAAAQAAAAEAAAD8/wAAAQAAAAEAAAD9/wAAAQAAAAEAAAD+/wAAAQAAAAEAAAD//wAAAQABAAEAAAAAAAAAAQAAAAEAAAABAAAAAQAAAAEAAAACAAAAAQAAAAEAAAADAAAAAQAAAAEAAAAEAAAAAQAAAAEAAAAFAAAAAQAAAAEAAAAGAAAAAQAAAAEAAAAHAAAAAQAAAAEAAAAIAAAAAQAAAAEAAAAJAAAAAQAAAAEAAAAKAAAAAQAAAAEAAAALAAAAAQAAAAEAAAAMAAAAAQAAAAEAAAANAAAAAQAAAAEAAAAOAAAAAQAAAAEAAAAPAAAAAQAAAAEAAADv/wgAAQAAAAAAAADw/wgAAQAAAAAAAADx/wgAAQAAAAAAAADy/wgAAQAAAAAAAADz/wgAAQAAAAAAAAD0/wgAAQAAAAAAAAD1/wgAAQAAAAAAAAD2/wgAAQAAAAAAAAD3/wgAAQAAAAAAAAD4/wgAAQAAAAAAAAD5/wgAAQAAAAAAAAD6/wgAAQAAAAAAAAD7/wgAAQAAAAAAAAD8/wgAAQAAAAAAAAD9/wgAAQAAAAAAAAD+/wgAAQAAAAAAAAD//wgAAQAAAAAAAAAAAAgAAQAAAAAAAAABAAgAAQAAAAAAAAACAAgAAQAAAAAAAAADAAgAAQAAAAAAAAAEAAgAAQAAAAAAAAAFAAgAAQAAAAAAAAAGAAgAAQAAAAAAAAAHAAgAAQAAAAAAAAAIAAgAAQAAAAAAAAAJAAgAAQAAAAAAAAAKAAgAAQAAAAAAAAALAAgAAQAAAAAAAAAMAAgAAQAAAAAAAAANAAgAAQAAAAAAAAAOAAgAAQAAAAAAAAAPAAgAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_wgf7m")
 
-[node name="inventoryUI" parent="." unique_id=304815659 instance=ExtResource("9_wri35")]
+[node name="inventoryUI" parent="." unique_id=304815659 instance=ExtResource("12_o3of3")]
 
-[node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(-323.11243, -65.55322)
 scale = Vector2(1.68, 1.5)
-box_sprite = ExtResource("13_c4gu0")
+box_sprite = ExtResource("14_ahua3")
 open_animation_name = "red_box_animation"
 
-[node name="clobox" parent="." unique_id=273495291 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="clobox" parent="." unique_id=273495291 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 z_index = -1
 position = Vector2(-991.7757, -65.55322)
 item_type = 9
-box_sprite = ExtResource("13_c4gu0")
+box_sprite = ExtResource("14_ahua3")
 open_animation_name = "red_box_animation"
 no_cooldown = true
 
-[node name="bluebox" parent="." unique_id=1043242724 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="bluebox" parent="." unique_id=1043242724 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(-323.11243, 81.94151)
 scale = Vector2(1.5, 1.5)
 item_type = 2
-box_sprite = ExtResource("13_2o8nt")
+box_sprite = ExtResource("15_g0k52")
 open_animation_name = "blue_box_animation"
 
-[node name="greenbox" parent="." unique_id=1015441779 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="greenbox" parent="." unique_id=1015441779 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(-323.1124, 245.82455)
 scale = Vector2(1.5, 1.5)
 item_type = 3
-box_sprite = ExtResource("16_8xfdk")
+box_sprite = ExtResource("16_8pwao")
 open_animation_name = "green_box_animation"
 
-[node name="purplebox" parent="." unique_id=1613082543 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="purplebox" parent="." unique_id=1613082543 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(-323.11243, 376.931)
 scale = Vector2(1.5, 1.5)
 item_type = 4
-box_sprite = ExtResource("15_ypog4")
+box_sprite = ExtResource("17_2wxil")
 open_animation_name = "purple_box_animation"
 
-[node name="redinjection" parent="." unique_id=1004667716 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="redinjection" parent="." unique_id=1004667716 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(341.06317, -63.504684)
 scale = Vector2(1.5, 1.5)
 item_type = 5
-box_sprite = ExtResource("16_p4h1h")
+box_sprite = ExtResource("18_psbn0")
 open_animation_name = "red_injection_animation"
 
-[node name="greeninjection" parent="." unique_id=548229172 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="greeninjection" parent="." unique_id=548229172 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(343.307, 73.747345)
 scale = Vector2(1.5, 1.5)
 item_type = 7
-box_sprite = ExtResource("17_ss1u1")
+box_sprite = ExtResource("19_v4reh")
 open_animation_name = "green_injection_animation"
 
-[node name="blueinjection" parent="." unique_id=1646250241 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="blueinjection" parent="." unique_id=1646250241 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(341.06317, 245.82452)
 scale = Vector2(1.5, 1.5)
 item_type = 6
-box_sprite = ExtResource("18_8xfdk")
+box_sprite = ExtResource("20_6vjsu")
 open_animation_name = "blue_injection_animation"
 
-[node name="purpleinjection" parent="." unique_id=1338813940 groups=["loot_box"] instance=ExtResource("10_wri35")]
+[node name="purpleinjection" parent="." unique_id=1338813940 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(341.06317, 376.93097)
 scale = Vector2(1.5, 1.5)
 item_type = 8
-box_sprite = ExtResource("19_kyfsy")
+box_sprite = ExtResource("21_3u7ru")
 open_animation_name = "purple_injection_animation"
 
-[node name="submit" parent="." unique_id=874708262 instance=ExtResource("25_m83tt")]
+[node name="submit" parent="." unique_id=874708262 instance=ExtResource("22_1rifq")]
 position = Vector2(24.682192, -217.14502)
 scale = Vector2(1.5, 1.5)
-box_sprite = ExtResource("26_2hgch")
+box_sprite = ExtResource("23_s6bx4")
 open_animation_name = "submit_box_animation"
 
-[node name="submit2" parent="." unique_id=350701557 instance=ExtResource("25_m83tt")]
+[node name="submit2" parent="." unique_id=350701557 instance=ExtResource("22_1rifq")]
 position = Vector2(24.682161, -290.89236)
 scale = Vector2(1.5, 1.5)
-box_sprite = ExtResource("26_2hgch")
+box_sprite = ExtResource("23_s6bx4")
 open_animation_name = "submit_box_animation"

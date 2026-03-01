@@ -1,6 +1,8 @@
 extends CanvasLayer
 class_name InventoryUI
 
+signal first_order_completed
+
 @onready var items_vbox = $Control/MarginContainer/VBoxContainer
 @onready var lock_vbox = $lock/VBoxContainer
 @onready var orders_hbox = $OrdersHBox
@@ -303,6 +305,8 @@ func _on_order_completed(order: OrderCard) -> void:
 	var time_left_ratio: float = (time_left / duration)
 	total_time_used_ratio += clamp(time_left_ratio, 0.0, 1.0)
 	cured_patients += 1
+	if cured_patients == 1:
+		first_order_completed.emit()
 
 	var added_score: float = SCORE_BASE * time_left * float(item_count)
 	Global.score += added_score
