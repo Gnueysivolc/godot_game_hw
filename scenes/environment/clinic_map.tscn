@@ -989,8 +989,9 @@ occlusion_enabled = false
 y_sort_origin = 100
 
 [node name="submit_box" type="TileMapLayer" parent="." unique_id=1694843609]
-position = Vector2(0, -344.15436)
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAP7/AAAAAAAAAAAAAP3/AAAAAAAAAAA=")
+position = Vector2(-5, -409.708)
+scale = Vector2(1.5, 1.5)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAP7/AAAAAAAAAAA=")
 tile_set = SubResource("TileSet_wvdgp")
 
 [node name="collisionfloor" type="TileMapLayer" parent="." unique_id=1926263023]
@@ -1027,6 +1028,7 @@ tile_set = SubResource("TileSet_wgf7m")
 
 [node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-323.11243, -65.55322)
+scale = Vector2(1.68, 1.5)
 box_sprite = ExtResource("13_c4gu0")
 open_animation_name = "red_box_animation"
 
@@ -1040,52 +1042,61 @@ no_cooldown = true
 
 [node name="bluebox" parent="." unique_id=1043242724 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-323.11243, 65.55321)
+scale = Vector2(1.5, 1.5)
 item_type = 2
 box_sprite = ExtResource("13_2o8nt")
 open_animation_name = "blue_box_animation"
 
 [node name="greenbox" parent="." unique_id=1015441779 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-320.86856, 198.70819)
+scale = Vector2(1.5, 1.5)
 item_type = 3
 box_sprite = ExtResource("16_8xfdk")
 open_animation_name = "green_box_animation"
 
 [node name="purplebox" parent="." unique_id=1613082543 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(-323.11237, 327.76608)
+scale = Vector2(1.5, 1.5)
 item_type = 4
 box_sprite = ExtResource("15_ypog4")
 open_animation_name = "purple_box_animation"
 
 [node name="redinjection" parent="." unique_id=1004667716 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(341.06317, -63.504684)
+scale = Vector2(1.5, 1.5)
 item_type = 5
 box_sprite = ExtResource("16_p4h1h")
 open_animation_name = "red_injection_animation"
 
 [node name="greeninjection" parent="." unique_id=548229172 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(343.307, 73.747345)
+scale = Vector2(1.5, 1.5)
 item_type = 7
 box_sprite = ExtResource("17_ss1u1")
 open_animation_name = "green_injection_animation"
 
 [node name="blueinjection" parent="." unique_id=1646250241 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(341.06317, 200.7567)
+scale = Vector2(1.5, 1.5)
 item_type = 6
 box_sprite = ExtResource("18_8xfdk")
 open_animation_name = "blue_injection_animation"
 
 [node name="purpleinjection" parent="." unique_id=1338813940 groups=["loot_box"] instance=ExtResource("10_wri35")]
 position = Vector2(343.307, 335.9602)
+scale = Vector2(1.5, 1.5)
 item_type = 8
 box_sprite = ExtResource("19_kyfsy")
 open_animation_name = "purple_injection_animation"
 
 [node name="submit" parent="." unique_id=874708262 instance=ExtResource("25_m83tt")]
-position = Vector2(20.194519, -213.04794)
+position = Vector2(24.682192, -217.14502)
+scale = Vector2(1.5, 1.5)
 box_sprite = ExtResource("26_2hgch")
 open_animation_name = "submit_box_animation"
 
 [node name="submit2" parent="." unique_id=350701557 instance=ExtResource("25_m83tt")]
-position = Vector2(20.194489, -264.26138)
+position = Vector2(24.682161, -290.89236)
+scale = Vector2(1.5, 1.5)
 box_sprite = ExtResource("26_2hgch")
 open_animation_name = "submit_box_animation"
