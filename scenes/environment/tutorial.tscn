@@ -978,7 +978,8 @@ y_sort_origin = 100
 [node name="collisionfloor" type="TileMapLayer" parent="." unique_id=1926263023]
 visible = false
 z_index = -1
-position = Vector2(0, -161.8345)
+position = Vector2(17.950691, -163.88303)
+tile_map_data = PackedByteArray("AAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAD8//z/AAAAAAAAAAD9//z/AAAAAAAAAAD+//z/AAAAAAAAAAD///z/AAAAAAAAAAAAAPz/AAAAAAAAAAABAPz/AAAAAAAAAAACAPz/AAAAAAAAAAADAPz/AAAAAAAAAAA=")
 tile_set = SubResource("TileSet_kyfsy")
 
 [node name="wall_top" type="TileMapLayer" parent="." unique_id=254033329]
@@ -1005,6 +1006,7 @@ tile_map_data = PackedByteArray("AAD8/wAAAQAAAAEAAAD9/wAAAQAAAAEAAAD+/wAAAQAAAAE
 tile_set = SubResource("TileSet_wgf7m")
 
 [node name="inventoryUI" parent="." unique_id=304815659 instance=ExtResource("12_o3of3")]
+tutorial_mode = true
 
 [node name="redbox" parent="." unique_id=451739962 groups=["loot_box"] instance=ExtResource("13_2rjtm")]
 position = Vector2(25, -114.718)

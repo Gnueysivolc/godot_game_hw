@@ -997,6 +997,7 @@ z_index = 1
 position = Vector2(29.169922, 49.164917)
 
 [node name="arrow" type="TileMapLayer" parent="." unique_id=1688310185]
+visible = false
 z_index = 1
 position = Vector2(0, -1000)
 scale = Vector2(3.5, 3.5)
@@ -1004,6 +1005,7 @@ tile_map_data = PackedByteArray("AAAAAA8AAAAAAAAAAAAAABMAAAAAAAAAAAAAABYAAAAAAAA
 tile_set = SubResource("TileSet_igyf1")
 
 [node name="arrow2" type="TileMapLayer" parent="." unique_id=60144101]
+visible = false
 z_index = 1
 position = Vector2(35.901, -1000)
 rotation = 0.7400196
@@ -1012,21 +1014,12 @@ tile_map_data = PackedByteArray("AAAIAAwAAAAAAAAAAAAKABAAAAAAAAAAAAAMABQAAAAAAAA
 tile_set = SubResource("TileSet_igyf1")
 
 [node name="arrow3" type="TileMapLayer" parent="." unique_id=2084949806]
+visible = false
 z_index = 1
 position = Vector2(0, -1000)
 rotation = -0.7400196
 scale = Vector2(3.5, 3.5)
 tile_map_data = PackedByteArray("AAD3/wwAAAAAAAAAAAD1/xAAAAAAAAAAAADz/xQAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_igyf1")
-
-[node name="arrow4" type="TileMapLayer" parent="." unique_id=1101205446]
-rotation = 0.6091199
-scale = Vector2(3.5, 3.5)
-tile_set = SubResource("TileSet_igyf1")
-
-[node name="arrow5" type="TileMapLayer" parent="." unique_id=381584880]
-rotation = 0.6091199
-scale = Vector2(3.5, 3.5)
 tile_set = SubResource("TileSet_igyf1")
 
 [node name="floor" type="TileMapLayer" parent="." unique_id=1275357026]

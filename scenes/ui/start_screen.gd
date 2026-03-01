@@ -3,6 +3,7 @@ extends Control
 @onready var easy_button: Button = $CenterContainer/Panel/VBoxContainer/Buttons/EasyButton
 @onready var medium_button: Button = $CenterContainer/Panel/VBoxContainer/Buttons/MediumButton
 @onready var hard_button: Button = $CenterContainer/Panel/VBoxContainer/Buttons/HardButton
+@onready var tutorial_button: Button = $CenterContainer/Panel/VBoxContainer/Buttons/TutorialButton
 
 
 func _ready() -> void:
@@ -12,6 +13,8 @@ func _ready() -> void:
 		medium_button.pressed.connect(_on_medium_pressed)
 	if not hard_button.pressed.is_connected(_on_hard_pressed):
 		hard_button.pressed.connect(_on_hard_pressed)
+	if not tutorial_button.pressed.is_connected(_on_tutorial_pressed):
+		tutorial_button.pressed.connect(_on_tutorial_pressed)
 
 
 func _on_easy_pressed() -> void:
@@ -24,6 +27,14 @@ func _on_medium_pressed() -> void:
 
 func _on_hard_pressed() -> void:
 	_start_game_with_difficulty("hard")
+
+
+func _on_tutorial_pressed() -> void:
+	var ok: bool = Global.apply_difficulty_preset("easy")
+	if not ok:
+		push_warning("Could not apply tutorial baseline difficulty.")
+	Global.start_game_bgm()
+	get_tree().change_scene_to_file("res://scenes/environment/tutorial.tscn")
 
 
 func _start_game_with_difficulty(difficulty_id: String) -> void:

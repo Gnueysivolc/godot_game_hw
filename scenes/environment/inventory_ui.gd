@@ -46,6 +46,8 @@ const CLOVIS_REWARD_INVENTORY_SLOTS: int = 6
 @export var damage_flash_color: Color = Color(1.0, 0.0, 0.0, 0.45)
 @export var damage_flash_in_duration: float = 0.05
 @export var damage_flash_out_duration: float = 0.16
+@export var tutorial_mode: bool = false
+@export var tutorial_order_time_limit: float = 120.0
 
 var items: Array = []          # stores slot nodes
 var lock_nodes: Array = []
@@ -100,11 +102,16 @@ func _ready():
 	_update_game_timer_label()
 	update_locks()
 	Global.inventory_upgraded.connect(update_locks)
-	_try_spawn_order()
+	if tutorial_mode:
+		_setup_tutorial_mode()
+	else:
+		_try_spawn_order()
 
 
 func _process(delta: float) -> void:
 	if game_ended:
+		return
+	if tutorial_mode:
 		return
 
 	game_time_left -= delta
@@ -321,10 +328,16 @@ func _on_order_completed(order: OrderCard) -> void:
 	)
 	print("Score added: ", added_score, " | Total score: ", Global.score)
 	_remove_order(order)
+	if tutorial_mode:
+		_show_tutorial_complete_popup()
+		return
 
 
 func _on_order_timed_out(order: OrderCard) -> void:
 	_remove_order(order)
+	if tutorial_mode:
+		_spawn_tutorial_order()
+		return
 	_lose_life_and_check_end()
 
 
@@ -550,6 +563,36 @@ func _update_game_timer_label() -> void:
 func _show_wave_popup() -> void:
 	wave_popup_open = true
 	wave_popup.show_popup(current_wave, current_wave_target_score, game_time_left)
+
+
+func _setup_tutorial_mode() -> void:
+	wave_popup.hide_popup()
+	wave_popup.visible = false
+	wave_target_label.visible = false
+	game_timer_label.visible = false
+	_spawn_tutorial_order()
+
+
+func _spawn_tutorial_order() -> void:
+	if game_ended:
+		return
+	if not active_orders.is_empty():
+		return
+
+	var sequence: Array[ItemTypes.ItemType] = []
+	sequence.append(ItemTypes.ItemType.RED_PILL)
+	var duration: float = max(tutorial_order_time_limit, 1.0)
+	_create_order(sequence, duration)
+
+
+func _show_tutorial_complete_popup() -> void:
+	if game_ended:
+		return
+
+	game_ended = true
+	wave_popup_open = false
+	wave_popup.hide_popup()
+	game_over_popup.show_tutorial_completed()
 
 
 # important place for changing buff values

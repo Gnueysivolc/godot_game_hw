@@ -29,6 +29,7 @@ func _ready() -> void:
 func show_results(cured_patients: int, average_time_left_ratio: float, final_score: float) -> void:
 	if win_color_tween and win_color_tween.is_running():
 		win_color_tween.kill()
+	restart_button.text = "Restart"
 
 	var used_percent: float = clamp(average_time_left_ratio * 100.0, 0.0, 100.0)
 	var satisfaction_percent: float = clamp(used_percent, 0.0, 100.0)
@@ -45,6 +46,19 @@ func show_results(cured_patients: int, average_time_left_ratio: float, final_sco
 	cured_label.text = "Patients Cured: %d" % cured_patients
 	satisfaction_label.text = "Patient Satisfaction: %.1f%% (average time left)" % [satisfaction_percent]
 	score_label.text = "Final Score: %.1f" % final_score
+	visible = true
+
+
+func show_tutorial_completed() -> void:
+	if win_color_tween and win_color_tween.is_running():
+		win_color_tween.kill()
+	_apply_panel_colors(base_bg_color, base_border_color)
+
+	title_label.text = "Tutorial Finished"
+	cured_label.text = "You finished tutorial."
+	satisfaction_label.text = "Press Reset to return to the main menu."
+	score_label.text = ""
+	restart_button.text = "Reset"
 	visible = true
 
 

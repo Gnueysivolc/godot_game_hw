@@ -37,8 +37,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -176.0
+offset_top = -144.0
+offset_right = -176.0
+offset_bottom = -144.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.1745427, 1.2200797)
 
 [node name="Panel" type="Panel" parent="CenterContainer" unique_id=1440068986]
 custom_minimum_size = Vector2(820, 620)
@@ -47,11 +52,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=926228692]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 32.0
-offset_right = 780.0
-offset_bottom = 588.0
-scale = Vector2(1.0195047, 0.96986806)
+offset_left = 40.511124
+offset_top = -10.777821
+offset_right = 780.5111
+offset_bottom = 658.22217
+scale = Vector2(1.0281228, 0.9329826)
 theme_override_constants/separation = 20
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=845822047]
@@ -96,3 +101,8 @@ text = "Start Medium"
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Start Hard"
+
+[node name="TutorialButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/Buttons" unique_id=1945877631]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Tutorial"
