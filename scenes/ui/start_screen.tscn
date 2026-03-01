@@ -37,13 +37,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -176.0
-offset_top = -144.0
-offset_right = -176.0
-offset_bottom = -144.0
+offset_left = -295.99997
+offset_top = -224.0
+offset_right = -296.0
+offset_bottom = -224.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.1745427, 1.2200797)
+scale = Vector2(1.3174574, 1.4023037)
 
 [node name="Panel" type="Panel" parent="CenterContainer" unique_id=1440068986]
 custom_minimum_size = Vector2(820, 620)
@@ -52,11 +52,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=926228692]
 layout_mode = 0
-offset_left = 40.511124
-offset_top = -10.777821
-offset_right = 780.5111
-offset_bottom = 658.22217
-scale = Vector2(1.0281228, 0.9329826)
+offset_left = 75.44715
+offset_top = -11.074525
+offset_right = 815.44714
+offset_bottom = 683.9255
+scale = Vector2(0.95936865, 0.8899981)
 theme_override_constants/separation = 20
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=845822047]
@@ -65,23 +65,23 @@ theme_override_font_sizes/font_size = 52
 text = "Clinic Rush"
 horizontal_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=2097561438]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Choose Difficulty"
-horizontal_alignment = 1
-
 [node name="HintLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=1440107239]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "arrow keys are for movement and enter / space is for interaction, the goal is to obtain item from the box and submit to the patient (at the arrow box).
 
-The game is for a home work and u are considered winning if ur score > 100000
+The game is for a homework and u are considered winning if ur score > 60000 in easy mode, > 100000 in other mode
 
 there will be buffs after u finished a wave but difficulty will increase
 
 **the message of the game is to balance the patient satisfaction and the score**"
 autowrap_mode = 3
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=2097561438]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Choose Difficulty"
+horizontal_alignment = 1
 
 [node name="Buttons" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1844369395]
 layout_mode = 2
